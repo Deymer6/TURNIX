@@ -73,3 +73,49 @@
   border-radius: 20px;
   cursor: pointer;
 }
+
+/* BOTÓN VER TODOS - AGREGA ESTO AL FINAL */
+.btn-ver-todos {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-ver-todos:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+}
+
+/* CENTRAR EL BOTÓN - AGREGA ESTO */
+.empty-state {
+  text-align: center; /* ← ESTA LÍNEA CENTRA TODO */
+}
+
+.btn-ver-todos {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 16px;
+  display: inline-flex; /* ← MANTÉN ESTO */
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-ver-todos:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+}
