@@ -1,0 +1,74 @@
+<div class="gestion-citas-container">
+    <h2 class="dashboard-title">Gestión de Citas</h2>
+    <!-- Filtros -->
+    <div class="filters">
+        <!-- Filtro por Status -->
+        <select id="status-filter">
+            <option value="">Todos los estados</option>
+            <option value="confirmado">Confirmado</option>
+            <option value="pendiente">Pendiente</option>
+            <option value="completado">Completado</option>
+            <option value="cancelado">Cancelado</option>
+        </select>
+
+        <!-- Filtro por Staff -->
+        <select id="staff-filter">
+            <option value="">Todo el staff</option>
+            <!-- Opciones de staff se cargarán dinámicamente -->
+        </select>
+
+        <!-- Filtro por Servicio -->
+        <select id="service-filter">
+            <option value="">Todos los servicios</option>
+            <!-- Opciones de servicio se cargarán dinámicamente -->
+        </select>
+
+        <!-- Filtro de Calendario -->
+        <input type="date" id="date-filter">
+
+        <!-- Búsqueda -->
+        <input type="text" id="search-input" placeholder="Buscar cita...">
+
+        <!-- Botón para crear nueva cita -->
+        <button class="btn btn-primary">Crear Nueva Cita</button>
+    </div>
+
+    <!-- Tabla de Citas -->
+    <div class="citas-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Cliente</th>
+                    <th>Servicio</th>
+                    <th>Staff</th>
+                    <th>Hora y Tiempo</th>
+                    <th>Status</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="citas.length > 0; else noCitas">
+                <!-- Las filas de citas se insertarán aquí dinámicamente con *ngFor -->
+                <tr *ngFor="let cita of citas">
+                    <td>{{ cita.cliente.nombre }} {{ cita.cliente.apellido }} ({{ cita.cliente.telefono || 'N/A' }})</td>
+                    <td>{{ cita.servicio.nombreServicio }} ({{ cita.servicio.duracionEstimada }} min)</td>
+                    <td>{{ cita.profesional.nombre }}</td>
+                    <td>{{ cita.fechaHoraInicio | date:'shortTime' }} - {{ cita.fechaHoraFin | date:'shortTime' }}</td>
+                    <td><span class="status status-{{ cita.estado | lowercase }}">{{ cita.estado }}</span></td>
+                    <td class="acciones">
+                        <button class="btn btn-secondary">Editar</button>
+                        <button class="btn btn-danger">Quitar</button>
+                    </td>
+                </tr>
+            </tbody>
+            <!-- El ng-template debe estar dentro de la tabla para que funcione correctamente -->
+            <ng-template #noCitas>
+                <tbody>
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 2rem;">No hay citas para mostrar.</td>
+                    </tr>
+                </tbody>
+            </ng-template>
+        </table>
+    </div>
+
+</div> <!-- Cierre del .gestion-citas-container -->

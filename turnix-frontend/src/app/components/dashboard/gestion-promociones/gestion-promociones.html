@@ -1,0 +1,47 @@
+<div class="gestion-promociones-container">
+    <h2 class="dashboard-title">Gestión de Promociones</h2>
+    <!-- Filtros -->
+    <div class="filters">
+        <!-- Búsqueda -->
+        <input type="text" id="search-promocion" placeholder="Buscar promoción...">
+
+        <!-- Botón para crear nueva promoción -->
+        <button class="btn btn-primary">Añadir Promoción</button>
+    </div>
+
+    <!-- Tabla de Promociones -->
+    <div class="promociones-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Descripción</th>
+                    <th>Válido desde</th>
+                    <th>Hasta</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="promociones.length > 0; else noPromociones">
+                <tr *ngFor="let promocion of promociones">
+                    <td>{{ promocion.titulo }}</td>
+                    <td>{{ promocion.descripcion }}</td>
+                    <td>{{ promocion.fechaInicio | date:'dd/MM/yyyy' }}</td>
+                    <td>{{ promocion.fechaFin | date:'dd/MM/yyyy' }}</td>
+                    <td><span class="status" [ngClass]="{'status-activa': promocion.activa, 'status-inactiva': !promocion.activa}">{{ promocion.activa ? 'Activa' : 'Inactiva' }}</span></td>
+                    <td class="acciones">
+                        <button class="btn btn-secondary">Editar</button>
+                        <button class="btn btn-danger">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+            <ng-template #noPromociones>
+                <tbody>
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 2rem;">No hay promociones para mostrar.</td>
+                    </tr>
+                </tbody>
+            </ng-template>
+        </table>
+    </div>
+</div> <!-- Cierre del .gestion-promociones-container -->

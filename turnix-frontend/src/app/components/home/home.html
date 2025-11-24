@@ -1,0 +1,35 @@
+
+<section #businessSection>
+  <div class="home-container">
+    
+    <app-encabezado 
+      [(termino)]="terminoBusqueda" 
+      (alBuscar)="buscarNegocios()">
+    </app-encabezado>
+
+    <app-categorias 
+      [categorias]="categorias" 
+      [categoriaActiva]="categoriaActiva"
+      [mostrarBotonLimpiar]="!!terminoBusqueda"
+      (alFiltrar)="filtrarPorCategoria($event)"
+      (alLimpiar)="limpiarBusqueda()">
+    </app-categorias>
+
+    
+    <app-lista-negocios 
+      [negocios]="negociosFiltrados"
+      [terminoBusqueda]="terminoBusqueda"
+      [categoriaActiva]="categoriaActiva"
+      (alVerDetalle)="irADetalle($event)"
+      (alLimpiar)="limpiarBusqueda()">
+    </app-lista-negocios>
+
+
+    <app-como-funciona 
+      [visible]="!terminoBusqueda">
+    </app-como-funciona>
+
+    <app-pie-pagina></app-pie-pagina>
+
+  </div>
+</section>

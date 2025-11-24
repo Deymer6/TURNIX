@@ -1,0 +1,15 @@
+<section class="categories-wrapper">
+  <div class="categories-container">
+    <div class="category-tabs">
+      <button *ngFor="let cat of categorias" class="tab-button" 
+              [class.active]="cat === categoriaActiva"
+              (click)="filtrar(cat)">
+        {{ cat }}
+      </button>
+    </div>
+
+    <button *ngIf="mostrarBotonLimpiar" class="clear-search-btn" (click)="limpiar()">
+      <span class="close-icon">✕</span> Limpiar búsqueda
+    </button>
+  </div>
+</section>

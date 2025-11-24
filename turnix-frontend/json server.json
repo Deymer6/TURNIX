@@ -1,0 +1,333 @@
+{
+  "usuarios": [
+    {
+      "id": "1",
+      "nombre": "jose",
+      "apellido": "garcia",
+      "email": "jose@correo.com",
+      "rol": "Admin"
+    },
+    {
+      "id": "2",
+      "nombre": "pedro",
+      "apellido": "rojas",
+      "email": "valeria@correo.com",
+      "rol": "Cliente"
+    },
+    {
+      "id": "3",
+      "nombre": "Juan",
+      "apellido": "Perez",
+      "email": "juan.perez@correo.com",
+      "rol": "Cliente"
+    }
+  ],
+  "negocios": [
+    {
+      "id": "1",
+      "usuarioId": 1,
+      "nombreNegocio": "La Barbería de Deymer",
+      "direccion": "Av. Siempre Viva 123, Trujillo",
+      "telefonoNegocio": "987654321",
+      "descripcion": "Los mejores cortes de la ciudad.",
+      "horarioApertura": "09:00:00",
+      "horarioCierre": "20:00:00"
+    },
+    {
+      "id": "2",
+      "usuarioId": 2,
+      "nombreNegocio": "The Gentlemen's Cut",
+      "direccion": "Jr. Trujillo 456, San Isidro",
+      "telefonoNegocio": "912345678",
+      "descripcion": "Cortes clásicos y modernos. Solo para caballeros.",
+      "horarioApertura": "10:00:00",
+      "horarioCierre": "20:00:00"
+    },
+    {
+      "id": "3",
+      "usuarioId": 2,
+      "nombreNegocio": "Nail Studio",
+      "direccion": "Av. Arequipa 789, Lince",
+      "telefonoNegocio": "998877665",
+      "descripcion": "Especialistas en uñas, manicura y pedicura.",
+      "horarioApertura": "10:00:00",
+      "horarioCierre": "19:00:00"
+    }
+  ],
+  "profesionales": [
+    {
+      "id": "1",
+      "negocioId": 1,
+      "nombre": "Juan",
+      "apellido": "Perez",
+      "especialidad": "Barbero",
+      "activo": true
+    },
+    {
+      "id": "2",
+      "negocioId": 1,
+      "nombre": "Miguel",
+      "apellido": "Torres",
+      "especialidad": "Estilista",
+      "activo": true
+    },
+    {
+      "id": "3",
+      "negocioId": 2,
+      "nombre": "Carlos",
+      "apellido": "Rojas",
+      "especialidad": "Barbero Senior",
+      "activo": true
+    },
+    {
+      "id": "4",
+      "negocioId": 3,
+      "nombre": "Maria",
+      "apellido": "Lopez",
+      "especialidad": "Manicurista",
+      "activo": true
+    }
+  ],
+  "servicios": [
+    {
+      "id": "1",
+      "negocioId": 1,
+      "nombreServicio": "Corte Clásico",
+      "precio": 25,
+      "duracionEstimada": 30
+    },
+    {
+      "id": "2",
+      "negocioId": 1,
+      "nombreServicio": "Corte + Barba",
+      "precio": 40,
+      "duracionEstimada": 45
+    },
+    {
+      "id": "3",
+      "negocioId": 2,
+      "nombreServicio": "Corte Faded",
+      "precio": 30,
+      "duracionEstimada": 40
+    },
+    {
+      "id": "4",
+      "negocioId": 3,
+      "nombreServicio": "Uñas Acrílicas (Set Completo)",
+      "precio": 35,
+      "duracionEstimada": 60
+    },
+    {
+      "id": "5",
+      "negocioId": 3,
+      "nombreServicio": "Pedicura Spa",
+      "precio": 25,
+      "duracionEstimada": 30
+    }
+  ],
+  "profesionalServicios": [
+    {
+      "id": "1",
+      "profesionalId": 1,
+      "servicioId": 1
+    },
+    {
+      "id": "2",
+      "profesionalId": 1,
+      "servicioId": 2
+    },
+    {
+      "id": "3",
+      "profesionalId": 2,
+      "servicioId": 1
+    },
+    {
+      "id": "4",
+      "profesionalId": 3,
+      "servicioId": 3
+    },
+    {
+      "id": "5",
+      "profesionalId": 4,
+      "servicioId": 4
+    },
+    {
+      "id": "6",
+      "profesionalId": 4,
+      "servicioId": 5
+    }
+  ],
+  "disponibilidadesSemanal": [
+    {
+      "id": "1",
+      "profesionalId": 1,
+      "diaSemana": 1,
+      "horaInicio": "09:00:00",
+      "horaFin": "17:00:00"
+    },
+    {
+      "id": "2",
+      "profesionalId": 1,
+      "diaSemana": 2,
+      "horaInicio": "09:00:00",
+      "horaFin": "17:00:00"
+    },
+    {
+      "id": "3",
+      "profesionalId": 3,
+      "diaSemana": 2,
+      "horaInicio": "10:00:00",
+      "horaFin": "19:00:00"
+    },
+    {
+      "id": "4",
+      "profesionalId": 4,
+      "diaSemana": 3,
+      "horaInicio": "10:00:00",
+      "horaFin": "19:00:00"
+    }
+  ],
+  "excepcionesHorario": [
+    {
+      "id": "1",
+      "profesionalId": 1,
+      "fechaEspecifica": "2025-12-25",
+      "tipo": "BLOQUEO"
+    }
+  ],
+  "citas": [
+    {
+      "id": "1",
+      "clienteId": 3,
+      "negocioId": 1,
+      "profesionalId": 1,
+      "servicioId": 1,
+      "fechaHoraInicio": "2025-11-20T10:00:00",
+      "fechaHoraFin": "2025-11-20T10:30:00",
+      "estado": "Completada",
+      "precioFinal": 25
+    },
+    {
+      "id": "2",
+      "clienteId": 1,
+      "negocioId": 3,
+      "profesionalId": 4,
+      "servicioId": 4,
+      "fechaHoraInicio": "2025-11-21T11:00:00",
+      "fechaHoraFin": "2025-11-21T11:40:00",
+      "estado": "Pendiente",
+      "precioFinal": 35
+    },
+    {
+      "id": "4e29",
+      "clienteId": 3,
+      "negocioId": 3,
+      "profesionalId": "4",
+      "servicioId": "4",
+      "fechaHoraInicio": "2025-11-12T17:00:00.000Z",
+      "fechaHoraFin": "2025-11-12T18:00:00.000Z",
+      "estado": "Pendiente",
+      "precioFinal": 35,
+      "clienteNombre": "genesis",
+      "clienteEmail": "genesis@gmai.com",
+      "clienteTelefono": "958746123",
+      "clienteNotas": ""
+    },
+    {
+      "id": "5d5a",
+      "clienteId": 3,
+      "negocioId": 3,
+      "profesionalId": "4",
+      "servicioId": "4",
+      "fechaHoraInicio": "2025-11-12T21:00:00.000Z",
+      "fechaHoraFin": "2025-11-12T22:00:00.000Z",
+      "estado": "Pendiente",
+      "precioFinal": 35,
+      "clienteNombre": "hgmghm",
+      "clienteEmail": "genesis@gmai.com",
+      "clienteTelefono": "958746123",
+      "clienteNotas": ""
+    },
+    {
+      "id": "9766",
+      "clienteId": 3,
+      "negocioId": 2,
+      "profesionalId": "3",
+      "servicioId": "3",
+      "fechaHoraInicio": "2025-11-11T16:20:00.000Z",
+      "fechaHoraFin": "2025-11-11T17:00:00.000Z",
+      "estado": "Pendiente",
+      "precioFinal": 30,
+      "clienteNombre": "hgmghm",
+      "clienteEmail": "genesis@gmai.com",
+      "clienteTelefono": "958746123",
+      "clienteNotas": ""
+    },
+    {
+      "id": "83f9",
+      "clienteId": 3,
+      "negocioId": 1,
+      "profesionalId": "1",
+      "servicioId": "1",
+      "fechaHoraInicio": "2025-11-11T19:30:00.000Z",
+      "fechaHoraFin": "2025-11-11T20:00:00.000Z",
+      "estado": "Pendiente",
+      "precioFinal": 25,
+      "clienteNombre": "hgmghm",
+      "clienteEmail": "genesis@gmai.com",
+      "clienteTelefono": "958746123",
+      "clienteNotas": "adfceww"
+    }
+  ],
+  "resenas": [
+    {
+      "id": "1",
+      "citaId": 1,
+      "clienteId": 3,
+      "calificacion": 5,
+      "comentario": "¡Juan es el mejor! Un corte perfecto."
+    }
+  ],
+  "galeriasNegocio": [
+    {
+      "id": "1",
+      "negocioId": 1,
+      "urlImagen": "https://placehold.co/800x300/45231a/FFFFFF?text=La+Barberia",
+      "descripcion": "Fachada del local"
+    },
+    {
+      "id": "2",
+      "negocioId": 1,
+      "urlImagen": "https://placehold.co/400x300/45231a/FFFFFF?text=Barberia+Interior",
+      "descripcion": "Interior de la barbería"
+    },
+    {
+      "id": "3",
+      "negocioId": 2,
+      "urlImagen": "https://placehold.co/800x300/1a1a1a/FFFFFF?text=The+Gentlemen's+Cut",
+      "descripcion": "Nuestro local"
+    },
+    {
+      "id": "4",
+      "negocioId": 3,
+      "urlImagen": "https://placehold.co/800x300/000000/FFFFFF?text=Nail+Studio",
+      "descripcion": "Nuestro estudio"
+    },
+    {
+      "id": "5",
+      "negocioId": 3,
+      "urlImagen": "https://placehold.co/400x300/000000/FFFFFF?text=Manicura",
+      "descripcion": "Manicura"
+    }
+  ],
+  "promociones": [
+    {
+      "id": "1",
+      "negocioId": 1,
+      "titulo": "20% Descuento en tu primer corte",
+      "fechaInicio": "2025-11-01",
+      "fechaFin": "2025-11-30",
+      "activa": true
+    }
+  ]
+}

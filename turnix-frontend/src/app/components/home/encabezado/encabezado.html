@@ -1,0 +1,22 @@
+<section class="hero-section">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="logo-container">
+      <h1 class="brand-logo">TURNIX</h1>
+      <div class="brand-underline"></div>
+    </div>
+    <p class="hero-tagline">Encuentra tu estilo perfecto</p>
+
+    <div class="search-container">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Buscar por nombre de negocio..." 
+               [ngModel]="termino" (ngModelChange)="onTerminoChange($event)"
+               (keyup.enter)="buscar()" class="search-input">
+        <button class="search-button" (click)="buscar()">
+          Buscar
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

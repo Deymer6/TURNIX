@@ -1,0 +1,52 @@
+<div class="gestion-servicios-container">
+  <h2 class="dashboard-title">Gestión de Servicios</h2>
+    <!-- Filtros -->
+    <div class="filters">
+        <!-- Búsqueda -->
+        <input type="text" id="search-servicio" placeholder="Buscar servicio...">
+
+        <!-- Botón para crear nuevo servicio -->
+        <button class="btn btn-primary">Añadir Servicio</button>
+    </div>
+
+  <div *ngIf="isLoading" class="loading-message">
+    Cargando servicios...
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+    <!-- Tabla de Servicios -->
+    <div class="servicios-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Duración</th>
+                    <th>Precio</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="!isLoading && !error && servicios.length > 0; else noServicios">
+                <tr *ngFor="let servicio of servicios">
+                    <td>{{ servicio.nombreServicio }}</td>
+                    <td>{{ servicio.duracionEstimada }} min</td>
+                    <td>{{ servicio.precio | currency:'EUR' }}</td>
+                    <td class="acciones">
+                        <button class="btn btn-secondary">Editar</button>
+                        <button class="btn btn-danger">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+            <ng-template #noServicios>
+                <tbody>
+                    <tr>
+                        <td colspan="4" style="text-align: center; padding: 2rem;">No hay servicios para mostrar.</td>
+                    </tr>
+                </tbody>
+            </ng-template>
+        </table>
+    </div>
+</div> <!-- Cierre del .gestion-servicios-container -->
+

@@ -1,0 +1,58 @@
+<<<<<<< HEAD
+=======
+
+<div *ngIf="negocio" class="profile-container">
+
+  
+  <div class="portada-container" *ngIf="galeria.length > 0">
+    <img [src]="galeria[0].urlImagen" [alt]="galeria[0].descripcion">
+  </div>
+  <div class="portada-container" *ngIf="galeria.length === 0">
+    <!-- Mostrar una imagen de reemplazo si no hay galería -->
+    <img src="https://placehold.co/1200x400/333333/FFF?text=Negocio" alt="Sin imagen de portada">
+  </div>
+
+
+  <!-- 
+    Sección de Información Principal 
+  -->
+  <div class="info-container">
+    
+    <h1>{{ negocio.nombreNegocio }}</h1>
+    
+    <!-- Mostramos el resto de la información -->
+    <p class="info-item">
+      📍 {{ negocio.direccion }}
+    </p>
+    <p class="info-item">
+      📞 {{ negocio.telefonoNegocio }}
+    </p>
+    <p class="info-item">
+      🕒 {{ negocio.horarioApertura }} - {{ negocio.horarioCierre }}
+    </p>
+
+    <!-- Botón de Reservar -->
+    <button (click)="irAReservar()" class="reservar-btn">Reservar Cita</button>
+  </div>
+
+
+  <div class="about-container">
+    <h2>Acerca del Negocio</h2>
+    <p>{{ negocio.descripcion }}</p>
+  </div>
+
+ 
+  <div class="galeria-container" *ngIf="galeria.length > 0">
+    <h2>Galería de Fotos</h2>
+    <div class="galeria-grid">
+      
+     
+      <div *ngFor="let foto of galeria" class="foto-card">
+        <img [src]="foto.urlImagen" [alt]="foto.descripcion">
+      </div>
+
+    </div>
+  </div>
+
+</div>
+>>>>>>> origin/abrhyl

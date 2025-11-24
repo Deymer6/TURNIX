@@ -1,0 +1,354 @@
+/* --- Contenedor Principal --- */
+.booking-container {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  font-family: Arial, sans-serif;
+  /* Animación suave al cambiar de paso */
+  transition: height 0.3s ease-in-out;
+}
+
+.paso-header {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.paso-header h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.paso-header .paso-info {
+  font-size: 1rem;
+  color: #777;
+  margin-top: 0.25rem;
+}
+
+
+/* --- PASO 1: SELECCIONAR SERVICIO --- */
+.servicios-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Espacio entre tarjetas */
+}
+
+.servicio-card {
+  display: flex;
+  justify-content: space-between; /* Alinea contenido a los lados */
+  align-items: center;
+  padding: 1.5rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.servicio-card:hover {
+  border-color: #aaa;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.servicio-info h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #222;
+  margin: 0;
+}
+
+.servicio-info p {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0.25rem 0 0;
+}
+
+.servicio-accion {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.servicio-accion .precio {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.seleccionar-btn {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: bold;
+  padding: 0.7rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.seleccionar-btn:hover {
+  background-color: #444;
+}
+
+.no-servicios p {
+  text-align: center;
+  font-size: 1rem;
+  color: #888;
+  padding: 2rem 0;
+}
+
+
+/* --- PASO 2: AGENDAR CITA --- */
+.servicio-resumen {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.agendar-form {
+  display: grid;
+  /* Dos columnas de igual tamaño */
+  grid-template-columns: 1fr 1fr; 
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Estilos de Formulario (reutilizables) */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 0.5rem;
+}
+
+.form-control {
+  font-size: 1rem;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  font-family: Arial, sans-serif;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #007bff; /* Un color de acento */
+  box-shadow: 0 0 5px rgba(0,123,255,0.25);
+}
+
+/* Horarios */
+.horarios-container {
+  margin-bottom: 1.5rem;
+}
+
+.horarios-container label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 0.75rem;
+  display: block; /* Para que el margen funcione */
+}
+
+.horarios-grid {
+  display: grid;
+  /* 5 columnas */
+  grid-template-columns: repeat(5, 1fr); 
+  gap: 0.75rem;
+}
+
+.hora-btn {
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.7rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.hora-btn:hover {
+  background-color: #f4f4f4;
+  border-color: #999;
+}
+
+/* Estilo para el botón de hora SELECCIONADO */
+.hora-btn.selected {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  border-color: #1a1a1a;
+}
+
+/* Mensajes de carga o error de horarios */
+.horarios-mensaje {
+  text-align: center;
+  padding: 1rem;
+  background-color: #f8f8f8;
+  border-radius: 6px;
+  color: #777;
+}
+
+.horarios-mensaje.error {
+  background-color: #fff2f2;
+  color: #d8000c;
+  border: 1px solid #ffcccc;
+}
+
+
+/* Botón de Continuar (Verde) */
+.continuar-btn {
+  width: 100%;
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 0.9rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  background-color: #28a745; /* Verde */
+  color: #ffffff;
+}
+
+.continuar-btn:hover {
+  background-color: #218838;
+}
+
+/* Estilo para el botón deshabilitado */
+.continuar-btn:disabled {
+  background-color: #e0e0e0;
+  color: #999;
+  cursor: not-allowed;
+}
+
+
+/* --- ¡NUEVO! PASO 3: CONFIRMAR RESERVA --- */
+.resumen-box {
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.resumen-box h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #222;
+  margin: 0 0 1rem;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.75rem;
+}
+
+.resumen-box p {
+  font-size: 1rem;
+  color: #444;
+  margin: 0.5rem 0;
+  line-height: 1.5;
+}
+
+.resumen-box p strong {
+  color: #111;
+  width: 110px;
+  display: inline-block; /* Para alinear */
+}
+
+.form-contacto h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 1rem;
+}
+
+/* El formulario de contacto usará 1 columna */
+.form-contacto .form-group {
+  margin-bottom: 1rem;
+}
+
+.form-contacto textarea {
+  font-family: Arial, sans-serif;
+  resize: vertical; /* Permite cambiar el tamaño verticalmente */
+  min-height: 80px;
+}
+
+
+/* --- ¡NUEVO! PASO 4: ÉXITO --- */
+.exito-box {
+  text-align: center;
+  padding: 2rem;
+}
+
+.exito-box h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #28a745; /* Verde */
+  margin-bottom: 1rem;
+}
+
+.exito-box p {
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.6;
+}
+
+.exito-box hr {
+  border: 0;
+  border-top: 1px solid #eee;
+  margin: 1.5rem 0;
+}
+
+.exito-box .seleccionar-btn {
+  margin-top: 1.5rem;
+  background-color: #007bff; /* Botón azul para "Volver" */
+}
+.exito-box .seleccionar-btn:hover {
+  background-color: #0056b3;
+}
+
+
+/* --- Adaptación para celulares --- */
+@media (max-width: 600px) {
+  .booking-container {
+    padding: 1rem;
+    margin: 1rem;
+  }
+
+  .servicio-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .servicio-accion {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  /* Formulario de Paso 2 en 1 columna */
+  .agendar-form {
+    grid-template-columns: 1fr; 
+    gap: 1rem;
+  }
+
+  /* Horarios en 3 columnas */
+  .horarios-grid {
+    grid-template-columns: repeat(3, 1fr); 
+  }
+}

@@ -1,0 +1,26 @@
+<div class="dashboard-container">
+  <!-- Barra Lateral de Navegación (Columna Izquierda) -->
+  <aside class="dashboard-sidebar">
+    <div class="sidebar-header">
+      <h3>Turnix Panel</h3>
+    </div>
+    <nav class="sidebar-nav">
+      <ul>
+        <li>
+          <a routerLink="citas" routerLinkActive="active-link">Gestión de Citas</a>
+        </li>
+        <li>
+          <a routerLink="servicios" routerLinkActive="active-link">Gestión de Servicios</a>
+        </li>
+        <li>
+          <a routerLink="promociones" routerLinkActive="active-link">Gestión de Promociones</a>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Contenido Principal (Columna Derecha) -->
+  <main class="dashboard-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>
