@@ -254,3 +254,20 @@ body {
     min-width: 60px;
   }
 }
+/* ========================================
+   SCROLL GLOBAL - AGREGA ESTO AL FINAL
+======================================== */
+html {
+    overflow-y: auto !important;
+    scroll-behavior: smooth;
+}
+
+body {
+    overflow-y: auto !important;
+    overflow-x: hidden;
+}
+
+.main-content {
+    overflow: visible !important;
+    height: auto !important;
+}

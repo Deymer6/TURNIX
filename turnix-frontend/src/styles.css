@@ -3,6 +3,14 @@
 html, body {
     margin: 0;
     padding: 0;
-    height: 100%; /* Ensure html and body also take full height */
-    overflow: hidden; /* Prevent scrolling on main body if dashboard handles it */
+    height: 100%;
+    /* ELIMINA overflow: hidden */
+    overflow-x: hidden; /* Solo bloquea scroll horizontal si es necesario */
+}
+
+/* Asegura que el scroll funcione */
+app-root {
+    display: block;
+    height: auto;
+    min-height: 100vh;
 }

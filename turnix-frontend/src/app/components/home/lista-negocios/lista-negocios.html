@@ -1,73 +1,75 @@
-
 <section class="negocios-section">
 
   @if (terminoBusqueda) {
-    <div class="search-results-info">
-      <p class="results-text">
-        <strong>{{negocios.length}}</strong> resultado(s) para
-        <span class="search-term">"{{terminoBusqueda}}"</span>
-      </p>
-    </div>
+  <div class="search-results-info">
+    <p class="results-text">
+      <strong>{{negocios.length}}</strong> resultado(s) para
+      <span class="search-term">"{{terminoBusqueda}}"</span>
+    </p>
+  </div>
   }
 
   @if (negocios.length === 0 && terminoBusqueda) {
-    <div class="empty-state">
-      <div class="empty-icon">🔍</div>
-      <h3>No encontramos resultados</h3>
-      <p>No hay negocios que coincidan con "{{terminoBusqueda}}"</p>
-      <button class="btn-secondary" (click)="alLimpiar.emit()">Ver todos</button>
-    </div>
+  <div class="empty-state">
+    <div class="empty-icon">🔍</div>
+    <h3>No encontramos resultados</h3>
+    <p>No hay negocios que coincidan con "{{terminoBusqueda}}"</p>
+    <!-- CAMBIA ESTE BOTÓN EXISTENTE -->
+    <button class="btn-ver-todos" (click)="alLimpiar.emit()">
+      <i class="fas fa-list"></i>
+      Ver todos los negocios
+    </button>
+  </div>
   }
 
   @if (negocios.length === 0 && !terminoBusqueda) {
-    <div class="empty-state">
-      <div class="empty-icon">📋</div>
-      <h3>No hay negocios disponibles</h3>
-      <p>En la categoría "{{categoriaActiva}}"</p>
-    </div>
+  <div class="empty-state">
+    <div class="empty-icon">📋</div>
+    <h3>No hay negocios disponibles</h3>
+    <p>En la categoría "{{categoriaActiva}}"</p>
+  </div>
   }
 
   @if (negocios.length > 0) {
-    <div class="cards-grid">
-      @for (negocio of negocios; track negocio.id) {
-        <div class="negocio-card" (click)="verDetalle(negocio)">
-          
-          <div class="card-image-wrapper">
-            <img [src]="negocio.imagenUrl" [alt]="negocio.nombre" class="card-image" 
-                 (error)="cargarImagenDefault($event)">
-            
-            <div class="rating-badge">
-              <span class="star-icon">⭐</span>
-              <span class="rating-value">{{ negocio.calificacion }}</span>
-              <span class="rating-reviews">({{ negocio.numeroResenas }} reseñas)</span>
-            </div>
+  <div class="cards-grid">
+    @for (negocio of negocios; track negocio.id) {
+    <div class="negocio-card" (click)="verDetalle(negocio)">
 
-            <div class="type-badge">{{ negocio.tipo }}</div>
-          </div>
+      <div class="card-image-wrapper">
+        <img [src]="negocio.imagenUrl" [alt]="negocio.nombre" class="card-image" (error)="cargarImagenDefault($event)">
 
-          <div class="card-body">
-            <h3 class="card-title">{{ negocio.nombre }}</h3>
-            
-            <div class="card-info">
-              <div class="info-item">
-                <span class="info-text">{{ negocio.direccion }}</span>
-              </div>
-            </div>
-
-            <div class="card-footer">
-              <div class="price-tag">
-                <span class="price-label">Desde</span>
-                <span class="price-value">S/ {{ negocio.precioMinimo }}</span>
-              </div>
-              <button class="btn-reservar" (click)="verDetalle(negocio); $event.stopPropagation()">
-                Reservar ahora <span class="arrow">→</span>
-              </button>
-            </div>
-          </div>
-
+        <div class="rating-badge">
+          <span class="star-icon">⭐</span>
+          <span class="rating-value">{{ negocio.calificacion }}</span>
+          <span class="rating-reviews">({{ negocio.numeroResenas }} reseñas)</span>
         </div>
-      }
+
+        <div class="type-badge">{{ negocio.tipo }}</div>
+      </div>
+
+      <div class="card-body">
+        <h3 class="card-title">{{ negocio.nombre }}</h3>
+
+        <div class="card-info">
+          <div class="info-item">
+            <span class="info-text">{{ negocio.direccion }}</span>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <div class="price-tag">
+            <span class="price-label">Desde</span>
+            <span class="price-value">S/ {{ negocio.precioMinimo }}</span>
+          </div>
+          <button class="btn-reservar" (click)="verDetalle(negocio); $event.stopPropagation()">
+            Reservar ahora <span class="arrow">→</span>
+          </button>
+        </div>
+      </div>
+
     </div>
+    }
+  </div>
   }
 
 </section>

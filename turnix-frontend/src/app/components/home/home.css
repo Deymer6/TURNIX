@@ -10,3 +10,21 @@
   background: #0a0a0a;
   color: #ffffff;
 }
+/* SCROLL DEL HOME - AGREGA ESTO AL FINAL */
+.home-container {
+    min-height: 100vh;
+    background: #0a0a0a;
+    color: #ffffff;
+    overflow: visible !important; /* ← IMPORTANTE */
+    height: auto !important;
+}
+
+/* Asegura que todas las secciones permitan scroll */
+app-encabezado, 
+app-categorias, 
+app-lista-negocios, 
+app-como-funciona, 
+app-pie-pagina {
+    display: block;
+    overflow: visible !important;
+}
