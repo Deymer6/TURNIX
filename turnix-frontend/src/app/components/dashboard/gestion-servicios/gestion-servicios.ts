@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router'; // Import ActivatedRoute
+import { ActivatedRoute } from '@angular/router'; 
 
 import { CitaService } from '../../../services/cita.service';
 
@@ -14,21 +14,21 @@ import { ServicioService } from '../../../services/servicio.service';
 })
 export class GestionServiciosComponent implements OnInit {
   servicios: any[] = [];
-  negocioId: number | null = null; // Declare negocioId property
+  negocioId: number | null = null; 
   isLoading: boolean = false;
   error: string | null = null;
 
   constructor(
     private ServicioService: ServicioService,
     private citaService: CitaService,
-    private route: ActivatedRoute // Inject ActivatedRoute
+    private route: ActivatedRoute 
   ) { }
 
   ngOnInit(): void {
     this.route.parent?.paramMap.subscribe(params => {
       const negocioIdParam = params?.get('negocioId');
       if (negocioIdParam) {
-        this.negocioId = +negocioIdParam; // Convert string to number
+        this.negocioId = +negocioIdParam; 
         this.loadServicios();
       } else {
         this.error = 'No se proporcionó un ID de negocio.';
@@ -44,7 +44,7 @@ export class GestionServiciosComponent implements OnInit {
     }
 
     this.isLoading = true;
-    this.error = null; // Clear previous errors
+    this.error = null; 
 
     this.ServicioService.getServiciosPorNegocio(this.negocioId).subscribe(
       (data: any) => {

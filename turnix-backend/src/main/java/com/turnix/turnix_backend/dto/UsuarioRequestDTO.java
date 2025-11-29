@@ -30,8 +30,4 @@ public class UsuarioRequestDTO {
     @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
     private String password;
 
-    @NotBlank
-    @Size(max = 30)
-    // Accept a wider set of role strings (will be normalized server-side to the DB allowed values)
-    private String rol;
 }

@@ -11,8 +11,9 @@ export class CitaService {
   crearCita(citaData: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/citas`, citaData);
   }
-  getCitasPorUsuario(usuarioId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/citas/usuario/${usuarioId}`);
+  // Nuevo método para obtener citas por ID de negocio
+  getCitasPorNegocio(negocioId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/citas/negocio/${negocioId}`);
   }
   cancelarCita(citaId: number): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/citas/${citaId}/cancelar`, {});

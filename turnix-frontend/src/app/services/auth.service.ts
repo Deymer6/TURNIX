@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { Router } from '@angular/router';
 
 // Interfaces para los datos
 export interface Usuario {
@@ -8,6 +9,8 @@ export interface Usuario {
   nombre: string;
   email: string;
   rol: string;
+  hasNegocio: boolean;
+  negocioIds?: number[]; // Nuevo campo
 }
 
 export interface AuthResponse {
@@ -16,6 +19,8 @@ export interface AuthResponse {
   nombre: string;
   email: string;
   rol: string;
+  hasNegocio: boolean;
+  negocioIds?: number[]; // Nuevo campo
 }
 
 @Injectable({
@@ -23,12 +28,12 @@ export interface AuthResponse {
 })
 export class AuthService {
   // URL del Backend
-  private apiUrl = 'http://localhost:8080/api/usuarios'; 
+  private apiUrl = 'http://localhost:8080/api/auth'; 
 
   private currentUserSubject = new BehaviorSubject<Usuario | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     this.loadUserFromStorage();
   }
 
@@ -49,7 +54,9 @@ export class AuthService {
             id: response.id,
             nombre: response.nombre,
             email: response.email,
-            rol: response.rol
+            rol: response.rol,
+            hasNegocio: response.hasNegocio,
+            negocioIds: response.negocioIds // Guardar negocioIds
           };
           localStorage.setItem('user', JSON.stringify(user));
           this.currentUserSubject.next(user);
@@ -66,6 +73,7 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     this.currentUserSubject.next(null);
+    this.router.navigate(['/']);
   }
 
   isAuthenticated(): boolean {
@@ -73,5 +81,23 @@ export class AuthService {
   }
   getToken(): string | null {
     return localStorage.getItem('token');
+  }
+
+  updateUserHasNegocioStatus(hasNegocio: boolean): void {
+    const currentUser = this.currentUserSubject.getValue();
+    if (currentUser) {
+      const updatedUser = { ...currentUser, hasNegocio };
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      this.currentUserSubject.next(updatedUser);
+    }
+  }
+
+  hasRole(role: string): boolean {
+    const currentUser = this.currentUserSubject.getValue();
+    return currentUser?.rol === role;
+  }
+
+  getCurrentUser(): Usuario | null {
+    return this.currentUserSubject.getValue();
   }
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
 export interface Negocio {
   id: number;
   nombreNegocio: string;
@@ -17,6 +18,17 @@ export interface Negocio {
   imagenUrl?: string;
   calificacion?: number;
   numeroResenas?: number;
+}
+
+export interface CrearNegocioDTO {
+  nombreNegocio: string;
+  direccion: string;
+  telefonoNegocio?: string;
+  descripcion?: string;
+  horarioApertura: string; // Represent LocalTime as string (e.g., "HH:mm")
+  horarioCierre: string; // Represent LocalTime as string (e.g., "HH:mm")
+  ciudad: string;
+  tipo: string;
 }
 
 @Injectable({
@@ -51,5 +63,10 @@ export class NegocioService {
   }
   obtenerGaleriaPorNegocio(negocioId: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/galerias/negocio/${negocioId}`); 
+  }
+
+  // 📤 Crear un nuevo negocio
+  crearNegocio(negocioData: CrearNegocioDTO): Observable<Negocio> {
+    return this.http.post<Negocio>(`${this.baseUrl}/negocios`, negocioData);
   }
 }

@@ -11,13 +11,16 @@ import com.turnix.turnix_backend.service.CitaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/citas")
+@RequestMapping("/api/citas") 
 public class CitaController {
 
     @Autowired
@@ -28,6 +31,17 @@ public class CitaController {
         Optional<Cita> cita = citaService.getCitaById(id);
         return cita.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    @GetMapping("/negocio/{negocioId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<CitaResponseDTO>> getCitasByNegocioId(@PathVariable Integer negocioId) {
+        List<Cita> citas = citaService.getCitasByNegocioId(negocioId);
+        List<CitaResponseDTO> citaDTOs = citas.stream()
+                .map(CitaResponseDTO::new) 
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(citaDTOs);
+    }
+
 
     @PostMapping
     public ResponseEntity<CitaResponseDTO> createCita(@Valid @RequestBody CitaRequestDTO dto) {
@@ -57,22 +71,13 @@ public class CitaController {
 
         Cita created = citaService.createCita(cita);
 
-        CitaResponseDTO resp = new CitaResponseDTO();
-        resp.setId(created.getId() == null ? null : created.getId().longValue());
-        resp.setClienteId(created.getCliente() != null && created.getCliente().getId() != null ? created.getCliente().getId().longValue() : null);
-        resp.setNegocioId(created.getNegocio() != null && created.getNegocio().getId() != null ? created.getNegocio().getId().longValue() : null);
-        resp.setProfesionalId(created.getProfesional() != null && created.getProfesional().getId() != null ? created.getProfesional().getId().longValue() : null);
-        resp.setServicioId(created.getServicio() != null && created.getServicio().getId() != null ? created.getServicio().getId().longValue() : null);
-        resp.setFechaHoraInicio(created.getFechaHoraInicio());
-        resp.setFechaHoraFin(created.getFechaHoraFin());
-        resp.setEstado(created.getEstado());
-        resp.setPrecioFinal(created.getPrecioFinal());
-        resp.setNotasPromocion(created.getNotasPromocion());
+        
+        CitaResponseDTO resp = new CitaResponseDTO(created);
 
         return ResponseEntity.status(201).body(resp);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/citas/{id}")
     public ResponseEntity<Void> deleteCita(@PathVariable Long id) {
         citaService.deleteCita(id);
         return ResponseEntity.noContent().build();

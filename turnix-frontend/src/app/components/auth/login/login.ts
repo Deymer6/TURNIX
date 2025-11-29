@@ -35,8 +35,8 @@ export class Login {
     this.authService.login(this.email, this.password).subscribe({
       next: (response) => {
         this.loading = false;
-        // Redirigir al home después del login
-        this.router.navigate(['/']);
+        // Siempre redirigir al home después del login
+        this.router.navigate(['/']); 
       },
       error: (err) => {
         console.error(err);
