@@ -6,7 +6,7 @@
       {{ error }}
     </div>
 
-    <form (ngSubmit)="login()" class="login-form">
+    <form (ngSubmit)="login()" class="login-form" #loginForm="ngForm">
       
       <div class="form-group">
         <label for="email">Correo Electrónico</label>
@@ -15,8 +15,8 @@
           id="email" 
           name="email" 
           [(ngModel)]="email" 
-          placeholder="ejemplo@correo.com" 
           required
+          email
           [disabled]="loading"
         >
       </div>
@@ -28,13 +28,12 @@
           id="password" 
           name="password" 
           [(ngModel)]="password" 
-          placeholder="********" 
           required
           [disabled]="loading"
         >
       </div>
 
-      <button type="submit" class="login-btn" [disabled]="loading || !email || !password">
+      <button type="submit" class="login-btn" [disabled]="loading || loginForm.invalid">
         <span *ngIf="!loading">Ingresar</span>
         <span *ngIf="loading">Cargando...</span>
       </button>

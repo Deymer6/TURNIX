@@ -22,7 +22,6 @@ export class Register {
     telefono: '',
     password: '',
     confirmPassword: '',
-    rol: 'Cliente'
   };
 
   error: string = '';
@@ -55,7 +54,6 @@ export class Register {
       email: this.usuario.email,
       telefono: this.usuario.telefono,
       password: this.usuario.password,
-      rol: this.usuario.rol
     };
 
    

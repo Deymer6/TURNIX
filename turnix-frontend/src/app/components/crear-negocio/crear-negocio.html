@@ -1,0 +1,77 @@
+<div class="crear-negocio-container">
+  <h2>Crear Nuevo Negocio</h2>
+
+  <form [formGroup]="negocioForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="nombreNegocio">Nombre del Negocio:</label>
+      <input id="nombreNegocio" type="text" formControlName="nombreNegocio" required>
+      <div *ngIf="negocioForm.get('nombreNegocio')?.invalid && (negocioForm.get('nombreNegocio')?.dirty || negocioForm.get('nombreNegocio')?.touched)" class="error-message">
+        El nombre del negocio es requerido.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="direccion">Dirección:</label>
+      <input id="direccion" type="text" formControlName="direccion" required>
+      <div *ngIf="negocioForm.get('direccion')?.invalid && (negocioForm.get('direccion')?.dirty || negocioForm.get('direccion')?.touched)" class="error-message">
+        La dirección es requerida.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="telefonoNegocio">Teléfono del Negocio:</label>
+      <input id="telefonoNegocio" type="text" formControlName="telefonoNegocio">
+    </div>
+
+    <div class="form-group">
+      <label for="descripcion">Descripción:</label>
+      <textarea id="descripcion" formControlName="descripcion"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="horarioApertura">Horario de Apertura:</label>
+      <input id="horarioApertura" type="time" formControlName="horarioApertura" required>
+      <div *ngIf="negocioForm.get('horarioApertura')?.invalid && (negocioForm.get('horarioApertura')?.dirty || negocioForm.get('horarioApertura')?.touched)" class="error-message">
+        El horario de apertura es requerido.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="horarioCierre">Horario de Cierre:</label>
+      <input id="horarioCierre" type="time" formControlName="horarioCierre" required>
+      <div *ngIf="negocioForm.get('horarioCierre')?.invalid && (negocioForm.get('horarioCierre')?.dirty || negocioForm.get('horarioCierre')?.touched)" class="error-message">
+        El horario de cierre es requerido.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="ciudad">Ciudad:</label>
+      <input id="ciudad" type="text" formControlName="ciudad" required>
+      <div *ngIf="negocioForm.get('ciudad')?.invalid && (negocioForm.get('ciudad')?.dirty || negocioForm.get('ciudad')?.touched)" class="error-message">
+        La ciudad es requerida.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="tipo">Tipo de Negocio:</label>
+      <select id="tipo" formControlName="tipo" required>
+        <option value="" disabled>Selecciona un tipo</option>
+        <option value="Barbería">Barbería</option>
+        <option value="Salón de Belleza">Salón de Belleza</option>
+      </select>
+      <div *ngIf="negocioForm.get('tipo')?.invalid && (negocioForm.get('tipo')?.dirty || negocioForm.get('tipo')?.touched)" class="error-message">
+        El tipo de negocio es requerido.
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="negocioForm.invalid">Crear Negocio</button>
+  </form>
+
+  <div *ngIf="errorMessage" class="alert error">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="successMessage" class="alert success">
+    {{ successMessage }}
+  </div>
+</div>

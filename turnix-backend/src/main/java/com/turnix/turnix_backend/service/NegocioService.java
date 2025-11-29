@@ -1,6 +1,7 @@
 package com.turnix.turnix_backend.service;
 
 import com.turnix.turnix_backend.model.Negocio;
+import com.turnix.turnix_backend.model.Usuario; 
 import com.turnix.turnix_backend.repository.NegocioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,5 +29,9 @@ public class NegocioService {
 
     public void deleteNegocio(Long id) {
         negocioRepository.deleteById(id);
+    }
+
+    public Optional<Negocio> getNegocioByDueno(Usuario dueno) {
+        return negocioRepository.findByDueno(dueno);
     }
 }
