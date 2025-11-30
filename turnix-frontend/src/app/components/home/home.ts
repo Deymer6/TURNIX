@@ -2,12 +2,10 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NegocioService } from '../../services/negocio.service';
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-// Importamos los HIJOS
 import { EncabezadoComponent } from './encabezado/encabezado';
 import { CategoriasComponent } from './categorias/categorias';
 import { ListaNegociosComponent } from './lista-negocios/lista-negocios';
 import { ComoFuncionaComponent } from './como-funciona/como-funciona';
-import { PiePaginaComponent } from './pie-pagina/pie-pagina';
 
 interface NegocioVista {
   id: number;
@@ -29,7 +27,6 @@ interface NegocioVista {
     CategoriasComponent,
     ListaNegociosComponent,
     ComoFuncionaComponent,
-    PiePaginaComponent,
   ],
   templateUrl: './home.html',
   styleUrls: ['./home.css'],
@@ -55,64 +52,61 @@ export class Home implements OnInit {
     this.negocioService.obtenerNegocios().subscribe({
       next: (data: any[]) => {
         this.negocios = data.map((item: any) => {
+          
+          // 1. Inferir Tipo
           let tipoInferido = 'BARBERÍA';
           const nombreLower = (item.nombreNegocio || '').toLowerCase();
-          if (
-            nombreLower.includes('salón') ||
-            nombreLower.includes('salon') ||
-            nombreLower.includes('uñas')
-          ) {
-            tipoInferido = 'UÑAS';
+          const tipoBackend = (item.tipo || '').toString();
+
+          if (tipoBackend === 'SALON_BELLEZA' || nombreLower.includes('salón') || nombreLower.includes('uñas')) {
+            tipoInferido = 'UÑAS'; 
           }
+
+          // === 2. SOLUCIÓN DEFINITIVA DE IMÁGENES ===
+          let imagenFinal = item.imagenUrl; 
+
+          if (imagenFinal) {
+             if (imagenFinal.startsWith('/images')) {
+                 imagenFinal = '/assets' + imagenFinal;
+             } 
+             else if (imagenFinal.startsWith('images/')) {
+                 imagenFinal = '/assets/' + imagenFinal;
+             }
+          } else {
+             if (tipoInferido === 'BARBERÍA') {
+                 imagenFinal = '/assets/images/barberia-fachada.jpg';
+             } else {
+                 imagenFinal = '/assets/images/salon-fachada.webp';
+             }
+          }
+
           return {
             id: item.id,
             nombre: item.nombreNegocio,
             direccion: item.direccion,
-            imagenUrl: this.getImagenDefault(tipoInferido),
-            precioMinimo: 25,
-            calificacion: 4.8,
-            numeroResenas: 10,
+            imagenUrl: imagenFinal,
+            precioMinimo: 18,
+            calificacion: item.calificacionPromedio || 4.8,
+            numeroResenas: item.numeroResenas || 10,
             tipo: tipoInferido,
           };
         });
         this.negociosFiltrados = [...this.negocios];
         this.cargando = false;
       },
-      error: (err) => {
-        console.error(err);
+      error: (err: any) => {
+        console.error('Error al cargar negocios', err);
         this.cargando = false;
       },
     });
   }
 
-  getImagenDefault(tipo: string): string {
-    const imagenes: { [key: string]: string } = {
-      BARBERÍA:
-        'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&w=500&q=80',
-      UÑAS: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=500&q=80',
-      SALÓN:
-        'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=500&q=80',
-    };
-    return imagenes[tipo] || imagenes['BARBERÍA'];
+  // Función de navegación
+  irADetalle(negocio: any): void {
+    this.router.navigate(['/negocio-detail', negocio.id]);
   }
 
-  buscarNegocios(): void {
-    this.filtrarNegocios();
-    this.desplazarAResultados();
-  }
-  desplazarAResultados(): void {
-    setTimeout(() => {
-      if (this.businessSection) {
-        const element = this.businessSection.nativeElement;
-
-        const yOffset = -100;
-        const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-
-        window.scrollTo({ top: y, behavior: 'smooth' });
-      }
-    }, 100);
-  }
-
+  // ... Funciones de filtrado y búsqueda ...
   filtrarPorCategoria(categoria: string): void {
     this.categoriaActiva = categoria;
     this.filtrarNegocios();
@@ -120,14 +114,12 @@ export class Home implements OnInit {
 
   filtrarNegocios(): void {
     let resultados = this.negocios;
-
     if (this.categoriaActiva !== 'Todos') {
       const esBarberia = this.categoriaActiva === 'Barberías';
       const esSalon = this.categoriaActiva === 'Salones de Uñas';
       if (esBarberia) resultados = resultados.filter((n) => n.tipo === 'BARBERÍA');
-      else if (esSalon) resultados = resultados.filter((n) => n.tipo === 'UÑAS');
+      else if (esSalon) resultados = resultados.filter((n) => n.tipo === 'UÑAS' || n.tipo === 'SALÓN');
     }
-
     if (this.terminoBusqueda.trim()) {
       const termino = this.terminoBusqueda.toLowerCase().trim();
       resultados = resultados.filter(
@@ -139,14 +131,7 @@ export class Home implements OnInit {
     this.negociosFiltrados = resultados;
   }
 
-  limpiarBusqueda(): void {
-    this.terminoBusqueda = '';
-    this.categoriaActiva = 'Todos';
-    this.negociosFiltrados = [...this.negocios];
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  irADetalle(negocio: any): void {
-    this.router.navigate(['/negocio', negocio.id]);
-  }
+  buscarNegocios(): void { this.filtrarNegocios(); this.desplazarAResultados(); }
+  desplazarAResultados(): void { setTimeout(() => { if (this.businessSection) { const y = this.businessSection.nativeElement.getBoundingClientRect().top + window.pageYOffset - 100; window.scrollTo({ top: y, behavior: 'smooth' }); } }, 100); }
+  limpiarBusqueda(): void { this.terminoBusqueda = ''; this.categoriaActiva = 'Todos'; this.negociosFiltrados = [...this.negocios]; window.scrollTo({ top: 0, behavior: 'smooth' }); }
 }

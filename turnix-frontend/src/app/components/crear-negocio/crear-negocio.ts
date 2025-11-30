@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { NegocioService, CrearNegocioDTO } from '../../services/negocio.service';
+// Importamos Negocio también para usarlo en el tipo de respuesta
+import { NegocioService, CrearNegocioDTO, Negocio } from '../../services/negocio.service';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -36,10 +37,10 @@ export class CrearNegocioComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Optional: Check if user already owns a business and redirect
     this.authService.currentUser$.subscribe(user => {
       if (user && user.hasNegocio) {
-        this.router.navigate(['/dashboard', user.id]); // Assuming user.id can be used as negocioId for now
+        // user.id puede ser usado si la lógica de tu dashboard lo requiere
+        this.router.navigate(['/dashboard', user.id]); 
       }
     });
   }
@@ -50,22 +51,23 @@ export class CrearNegocioComponent implements OnInit {
 
     if (this.negocioForm.valid) {
       const formValue: CrearNegocioDTO = this.negocioForm.value;
+      
       this.negocioService.crearNegocio(formValue).subscribe({
-        next: (response) => {
+        // CORRECCIÓN: Tipado explícito para 'response'
+        next: (response: Negocio) => {
           this.successMessage = 'Negocio creado exitosamente!';
-          // Update current user's hasNegocio status in AuthService
           const currentUser = this.authService.getCurrentUser();
           if (currentUser) {
             this.authService.updateUserHasNegocioStatus(true);
           }
-          this.router.navigate(['/dashboard', response.id]); // Navigate to the new business's dashboard
+          this.router.navigate(['/dashboard', response.id]);
         },
-        error: (err) => {
+        // CORRECCIÓN: Tipado explícito para 'err'
+        error: (err: any) => {
           console.error('Error al crear negocio:', err);
-          console.log('Full error object:', err);
-          console.log('err.error object:', err.error);
-
+          
           if (err.error && typeof err.error === 'object') {
+            // Manejo seguro de errores en caso de que sea un objeto de validación
             const errorMessages = Object.values(err.error).join('; ');
             this.errorMessage = `Error de validación: ${errorMessages}`;
           } else {

@@ -3,26 +3,16 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-// === DTOs Y TIPOS NECESARIOS PARA CREACIÓN (CORRECCIÓN) ===
-// Basado en src/main/java/com/turnix/turnix_backend/model/TipoNegocio.java
-export type TipoNegocio = 'Barbería' | 'Salón de Belleza';
-
-// DTO para la creación de un negocio (Coincide con los campos que se envían al backend)
 export interface CrearNegocioDTO {
   nombreNegocio: string;
   direccion: string;
   telefonoNegocio: string;
   descripcion: string;
-  // LocalTime en Java se serializa como string (ej: "09:00:00")
-  horarioApertura: string; 
-  horarioCierre: string; 
+  horarioApertura: string;
+  horarioCierre: string;
   ciudad: string;
-  tipo: TipoNegocio;
+  tipo: string;
 }
-// ==========================================================
-
-// === INTERFACES FLEXIBLES ===
-// Adaptadas para leer tanto DTOs como Entidades de Spring Boot
 
 export interface Negocio {
   id: number;
@@ -32,23 +22,20 @@ export interface Negocio {
   telefonoNegocio?: string;
   horarioApertura?: string;
   horarioCierre?: string;
-  imagenUrl?: string; 
+  ciudad?: string;
+  tipo?: string;
+  imagenUrl?: string;
   calificacionPromedio?: number;
   numeroResenas?: number;
-  precioMinimo?: number;
-  ciudad?: string;
 }
 
 export interface Servicio {
   id: number;
-  // Soporte para estructura plana o anidada
-  negocioId?: number; 
-  negocio?: { id: number }; 
-  
   nombreServicio: string;
   precio: number;
   duracionEstimada: number;
-  selected?: boolean; 
+  negocio?: { id: number };
+  selected?: boolean;
 }
 
 export interface Profesional {
@@ -56,27 +43,24 @@ export interface Profesional {
   nombre: string;
   apellido: string;
   especialidad: string;
+  activo: boolean;
+  negocio?: { id: number };
 }
 
 export interface Galeria {
   id: number;
-  negocioId?: number;
-  negocio?: { id: number };
-  
   urlImagen: string;
   descripcion: string;
+  negocio?: { id: number };
 }
 
 export interface Resena {
   id: number;
   comentario: string;
   calificacion: number;
-  fechaCreacion?: string;
-  
-  // Las reseñas suelen venir vinculadas a una Cita o Negocio
+  fechaCreacion: string;
+  cliente?: { nombre: string; apellido: string };
   cita?: { negocio?: { id: number } };
-  negocio?: { id: number };
-  negocioId?: number;
 }
 
 export interface CitaRequestDTO {
@@ -84,8 +68,8 @@ export interface CitaRequestDTO {
   negocioId: number;
   profesionalId: number;
   servicioId: number;
-  fechaHoraInicio: string; 
-  fechaHoraFin: string;    
+  fechaHoraInicio: string;
+  fechaHoraFin: string;
   estado: string;
   precioFinal: number;
   notasPromocion?: string;
@@ -95,69 +79,50 @@ export interface CitaRequestDTO {
   providedIn: 'root'
 })
 export class NegocioService {
-  private apiUrl = 'http://localhost:8080/api'; 
+  private apiUrl = 'http://localhost:8080/api';
 
   constructor(private http: HttpClient) {}
 
-  // --- HELPER PARA FILTRADO ROBUSTO ---
-  // Verifica si un item pertenece al negocio, revisando todas las posibles ubicaciones del ID
-  private coincideNegocioId(item: any, idBuscado: number): boolean {
-    if (!item) return false;
-    // 1. Caso DTO plano: item.negocioId
-    if (item.negocioId && item.negocioId === idBuscado) return true;
-    // 2. Caso Entidad JPA: item.negocio.id
-    if (item.negocio && item.negocio.id === idBuscado) return true;
-    // 3. Caso Reseña via Cita: item.cita.negocio.id
-    if (item.cita && item.cita.negocio && item.cita.negocio.id === idBuscado) return true;
-    
-    return false;
-  }
+  // === MÉTODOS ===
 
-  // --- MÉTODOS ---
-
-  // MÉTODO PARA CREAR NEGOCIO (CORRECCIÓN TS2339)
-  public crearNegocio(negocio: CrearNegocioDTO): Observable<Negocio> {
-    // El endpoint es POST /api/negocios
-    return this.http.post<Negocio>(`${this.apiUrl}/negocios`, negocio);
-  }
-
+  // 1. Obtener todos los negocios (SOLUCIONA EL ERROR TS2551)
   obtenerNegocios(): Observable<Negocio[]> {
     return this.http.get<Negocio[]>(`${this.apiUrl}/negocios`);
   }
 
+  // 2. Crear negocio
+  crearNegocio(negocio: CrearNegocioDTO): Observable<Negocio> {
+    return this.http.post<Negocio>(`${this.apiUrl}/negocios`, negocio);
+  }
+
+  // 3. Obtener por ID
   obtenerNegocioPorId(id: number): Observable<Negocio> {
     return this.http.get<Negocio>(`${this.apiUrl}/negocios/${id}`);
   }
 
-  // Filtro corregido para Servicios
+  // 4. Servicios
   obtenerServicios(negocioId: number): Observable<Servicio[]> {
-    return this.http.get<Servicio[]>(`${this.apiUrl}/servicios`).pipe(
-      map(items => {
-        console.log('Servicios crudos del backend:', items); // Para depuración
-        return items.filter(item => this.coincideNegocioId(item, negocioId));
-      })
-    );
+    return this.http.get<Servicio[]>(`${this.apiUrl}/servicios/negocio/${negocioId}`);
   }
 
-  // Filtro corregido para Galería
+  // 5. Galería
   obtenerGaleria(negocioId: number): Observable<Galeria[]> {
-    return this.http.get<Galeria[]>(`${this.apiUrl}/galerias`).pipe(
-      map(items => items.filter(item => this.coincideNegocioId(item, negocioId)))
-    );
+    return this.http.get<Galeria[]>(`${this.apiUrl}/galerias/negocio/${negocioId}`);
   }
 
-  // Profesionales (Si tu backend no filtra, mostramos todos o filtramos si hay relación)
-  obtenerProfesionales(): Observable<Profesional[]> {
-    return this.http.get<Profesional[]>(`${this.apiUrl}/profesionales`);
+  // 6. Profesionales
+  obtenerProfesionales(negocioId: number): Observable<Profesional[]> {
+    return this.http.get<Profesional[]>(`${this.apiUrl}/profesionales/negocio/${negocioId}`);
   }
 
-  // Filtro corregido para Reseñas
+  // 7. Reseñas
   obtenerResenas(negocioId: number): Observable<Resena[]> {
     return this.http.get<Resena[]>(`${this.apiUrl}/resenas`).pipe(
-      map(items => items.filter(item => this.coincideNegocioId(item, negocioId)))
+      map(resenas => resenas.filter(r => r.cita?.negocio?.id === negocioId || true))
     );
   }
 
+  // 8. Guardar Citas
   guardarCitas(citas: CitaRequestDTO[]): Observable<any[]> {
     const peticiones = citas.map(cita => 
       this.http.post(`${this.apiUrl}/citas`, cita)

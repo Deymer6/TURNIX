@@ -16,7 +16,7 @@ export const routes: Routes = [
   { path: 'login', component: Login },
   { path: 'registro', component: Register },
   { path: 'negocio/:id', component: NegocioDetail },
-  
+  { path: 'negocio-detail/:id', component: NegocioDetail },
   { path: 'crear-negocio', component: CrearNegocioComponent, canActivate: [AuthGuard] },
   { path: 'booking/:negocioId', component: Booking, canActivate: [AuthGuard] },
 

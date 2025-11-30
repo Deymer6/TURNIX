@@ -2,7 +2,7 @@
   
   <div class="loading-screen" *ngIf="loading">
     <div class="spinner"></div>
-    <p>Cargando...</p>
+    <p>Cargando información del negocio...</p>
   </div>
 
   <div class="content-wrapper" *ngIf="!loading && negocio">
@@ -18,26 +18,28 @@
         <h1 class="business-title">{{ negocio.nombreNegocio }}</h1>
         
         <div class="business-meta">
-          <div class="rating-pill">⭐ {{ negocio.calificacionPromedio || '5.0' }} ({{ negocio.numeroResenas || 0 }} reseñas)</div>
-          <div class="address-pill">📍 {{ negocio.direccion || 'Dirección no disponible' }}</div>
-          <div class="address-pill">📞 {{ negocio.telefonoNegocio || 'Sin teléfono' }}</div>
+          <div class="rating-pill">⭐ {{ negocio.calificacionPromedio }} ({{ negocio.numeroResenas }} reviews)</div>
+          <div class="address-pill">📍 {{ negocio.direccion }}</div>
+          <div class="address-pill">📞 {{ negocio.telefonoNegocio }}</div>
         </div>
 
-        <div class="hours-pill" *ngIf="negocio.horarioApertura">
-          🕒 {{ negocio.horarioApertura }} - {{ negocio.horarioCierre }}
+        <div class="hours-pill">
+          🕒 Horario: {{ negocio.horarioApertura }} - {{ negocio.horarioCierre }}
         </div>
 
-        <button class="btn-reservar-main" (click)="abrirReserva()">Reservar Cita</button>
+        <div>
+            <button class="btn-reservar-main" (click)="abrirReserva()">Reservar Cita</button>
+        </div>
       </div>
     </div>
 
     <div class="main-body">
       
       <section class="detail-section">
-        <h2 class="section-heading">✂️ Servicios</h2>
+        <h2 class="section-heading">✂️ Acerca del Negocio / Servicios</h2>
         <p class="section-description">{{ negocio.descripcion }}</p>
 
-        <div class="services-grid" *ngIf="servicios.length > 0; else noServicios">
+        <div class="services-grid">
           <div class="service-card" *ngFor="let serv of servicios">
             <div class="service-info">
               <h3>{{ serv.nombreServicio }}</h3>
@@ -46,13 +48,10 @@
             <div class="service-price">S/ {{ serv.precio | number:'1.2-2' }}</div>
           </div>
         </div>
-        <ng-template #noServicios>
-          <div class="empty-msg">No se encontraron servicios para este negocio.</div>
-        </ng-template>
       </section>
 
       <section class="detail-section" *ngIf="galeria.length > 0">
-        <h2 class="section-heading">📷 Galería</h2>
+        <h2 class="section-heading">📷 Galería del Negocio</h2>
         <div class="gallery-grid">
           <div class="gallery-card" *ngFor="let foto of galeria">
             <div class="img-wrapper">
@@ -68,11 +67,11 @@
         <div class="reviews-list">
           <div class="review-item" *ngFor="let rev of resenas">
             <div class="review-header">
-              <span class="user-name">Usuario Turnix</span>
+              <span class="user-name">{{ rev.cliente?.nombre || 'Cliente Turnix' }}</span>
               <div class="stars">⭐⭐⭐⭐⭐</div>
             </div>
             <p class="review-text">"{{ rev.comentario }}"</p>
-            <span class="review-date">{{ rev.fechaCreacion | date:'shortDate' }}</span>
+            <span class="review-date">{{ rev.fechaCreacion | date:'mediumDate' }}</span>
           </div>
         </div>
       </section>
@@ -80,8 +79,17 @@
     </div>
     
     <footer class="detail-footer">
-        <h3>TURNIX</h3>
-        <p>© 2025 Turnix. Todos los derechos reservados.</p>
+        <div class="footer-content">
+            <div class="brand">
+                <h3>TURNIX</h3>
+                <p>La plataforma líder para reservas.</p>
+            </div>
+            <div class="contact">
+                <p>📧 info@turnix.com</p>
+                <p>📱 +51 999 888 777</p>
+            </div>
+        </div>
+        <p class="copy">© 2025 Turnix. Todos los derechos reservados.</p>
     </footer>
   </div>
 </div>
@@ -89,7 +97,7 @@
 <div class="modal-overlay" *ngIf="modalAbierto">
   <div class="modal-container">
     <div class="modal-header">
-      <h2>TURNIX</h2>
+      <h2 class="logo-text">TURNIX</h2>
       <div class="progress-steps">
         <div class="step" [class.active]="pasoActual >= 1"></div>
         <div class="step" [class.active]="pasoActual >= 2"></div>
@@ -98,50 +106,95 @@
       </div>
       <p class="step-label">Paso {{pasoActual}} de 4</p>
     </div>
+
     <div class="modal-body">
+      
       <div *ngIf="pasoActual === 1">
-        <h3>✔ Servicios</h3>
+        <h3>✔ Selecciona tus Servicios</h3>
         <div class="selection-list">
           <div class="select-row" *ngFor="let s of servicios" [class.selected]="s.selected" (click)="toggleServicio(s)">
             <div class="check-box"></div>
-            <div class="row-info"><h4>{{ s.nombreServicio }}</h4><span>{{ s.duracionEstimada }} min</span></div>
-            <div class="row-price">S/ {{ s.precio }}</div>
+            <div class="row-info">
+              <h4>{{ s.nombreServicio }}</h4>
+              <span>{{ s.duracionEstimada }} min</span>
+            </div>
+            <div class="row-price">S/ {{ s.precio | number:'1.2-2' }}</div>
           </div>
         </div>
-        <div class="total-bar"><span>Total</span><span class="highlight-price">S/ {{ totalPagar }}</span></div>
+        <div class="total-bar">
+          <span>Total Estimado</span>
+          <span class="highlight-price">S/ {{ totalPagar | number:'1.2-2' }}</span>
+        </div>
       </div>
+
       <div *ngIf="pasoActual === 2">
-        <h3>👤 Profesional</h3>
+        <h3>👤 Elige un Profesional</h3>
         <div class="cards-grid-small">
           <div class="pro-card" *ngFor="let p of profesionales" [class.selected]="profesionalSeleccionado?.id === p.id" (click)="seleccionarProfesional(p)">
-            <div class="avatar-circle">{{ p.nombre.charAt(0) }}</div>
-            <h4>{{ p.nombre }}</h4>
+            <div class="avatar-circle">{{ p.nombre.charAt(0) }}{{ p.apellido.charAt(0) }}</div>
+            <h4>{{ p.nombre }} {{ p.apellido }}</h4>
             <p>{{ p.especialidad }}</p>
           </div>
         </div>
       </div>
+
       <div *ngIf="pasoActual === 3">
-        <h3>📅 Fecha</h3>
+        <h3>📅 Fecha y Hora</h3>
+        <label class="sub-label">Seleccionar Día</label>
         <input type="date" [(ngModel)]="fechaSeleccionada" class="custom-input">
+        
+        <label class="sub-label" *ngIf="fechaSeleccionada">Horarios Disponibles</label>
         <div class="time-grid" *ngIf="fechaSeleccionada">
-          <button *ngFor="let h of horariosDisponibles" class="time-pill" [class.active]="horaSeleccionada === h" (click)="seleccionarHora(h)">{{ h }}</button>
+          <button *ngFor="let h of horariosDisponibles" 
+                  class="time-pill" 
+                  [class.active]="horaSeleccionada === h" 
+                  (click)="seleccionarHora(h)">
+            {{ h }}
+          </button>
         </div>
       </div>
+
       <div *ngIf="pasoActual === 4">
-        <h3>📝 Confirmar</h3>
+        <h3>📝 Confirma tu Reserva</h3>
+        <p class="sub-label">Casi listo, revisa los detalles.</p>
+        
         <div class="summary-card">
-            <div class="summary-date">📅 {{ fechaSeleccionada }} | ⏰ {{ horaSeleccionada }}</div>
-            <div class="summary-items"><div class="sum-row" *ngFor="let item of serviciosSeleccionados"><span>{{ item.nombreServicio }}</span><span>S/ {{ item.precio }}</span></div></div>
-            <div class="summary-total"><span>Total</span><span>S/ {{ totalPagar }}</span></div>
+            <div class="summary-header" *ngIf="profesionalSeleccionado">
+                <div class="avatar-small">{{ profesionalSeleccionado.nombre.charAt(0) }}</div>
+                <div>
+                    <h4>{{ profesionalSeleccionado.nombre }} {{ profesionalSeleccionado.apellido }}</h4>
+                    <span>{{ profesionalSeleccionado.especialidad }}</span>
+                </div>
+            </div>
+
+            <div class="summary-date">
+                📅 {{ fechaSeleccionada | date:'fullDate' }} <br> 
+                ⏰ {{ horaSeleccionada }}
+            </div>
+
+            <div class="summary-items">
+                <div class="sum-row" *ngFor="let item of serviciosSeleccionados">
+                    <span>{{ item.nombreServicio }}</span>
+                    <span>S/ {{ item.precio | number:'1.2-2' }}</span>
+                </div>
+            </div>
+            
+            <div class="summary-total">
+                <span>Total a Pagar</span>
+                <span class="mini-total">S/ {{ totalPagar | number:'1.2-2' }}</span>
+            </div>
         </div>
-      </div>
     </div>
+
+    </div>
+
     <div class="modal-footer">
-      <button class="btn-text" *ngIf="pasoActual === 1" (click)="cerrarReserva()">Cancelar</button>
-      <button class="btn-text" *ngIf="pasoActual > 1" (click)="atras()">‹ Atrás</button>
+      <button class="btn-danger" *ngIf="pasoActual === 1 || pasoActual === 4" (click)="cerrarReserva()">Cancelar Reserva</button>
+      
       <div class="actions-right">
+        <button class="btn-text" *ngIf="pasoActual > 1" (click)="atras()">‹ Atrás</button>
         <button class="btn-primary" *ngIf="pasoActual < 4" (click)="siguiente()">Siguiente ›</button>
-        <button class="btn-success" *ngIf="pasoActual === 4" (click)="confirmarReserva()">Confirmar</button>
+        <button class="btn-success" *ngIf="pasoActual === 4" (click)="confirmarReserva()">Confirmar Cita</button>
       </div>
     </div>
   </div>
