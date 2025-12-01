@@ -28,3 +28,166 @@ app-pie-pagina {
     display: block;
     overflow: visible !important;
 }
+/* VARIABLES Y RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.home-container {
+  min-height: 100vh;
+  background: #0a0a0a;
+  color: #ffffff;
+  overflow: visible !important;
+  height: auto !important;
+}
+
+/* Asegura que todas las secciones permitan scroll */
+app-encabezado, 
+app-categorias, 
+app-lista-negocios, 
+app-como-funciona, 
+app-pie-pagina {
+  display: block;
+  overflow: visible !important;
+}
+
+/* ========================================
+   RESPONSIVE COMPLETO PARA HOME
+======================================== */
+
+/* Tablets (768px - 1024px) */
+@media (max-width: 1024px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .search-container {
+    flex-direction: column;
+  }
+  
+  .search-btn {
+    width: 100%;
+    margin-top: 10px;
+    padding: 16px;
+  }
+  
+  .businesses-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+/* Móviles grandes (576px - 768px) */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2rem;
+    text-align: center;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+    text-align: center;
+  }
+  
+  .businesses-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .categories-tabs {
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+  
+  .tab {
+    padding: 10px 16px;
+    font-size: 14px;
+    flex: 1;
+    min-width: 140px;
+    text-align: center;
+  }
+  
+  .section-header {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+  }
+  
+  .search-box {
+    padding: 0 16px;
+  }
+  
+  #search-input {
+    font-size: 14px;
+  }
+}
+
+/* Móviles pequeños (hasta 576px) */
+@media (max-width: 576px) {
+  .hero-title {
+    font-size: 1.8rem;
+  }
+  
+  .hero {
+    padding: 40px 0;
+  }
+  
+  .container {
+    padding: 0 16px;
+  }
+  
+  .business-card {
+    margin: 0 auto;
+    max-width: 100%;
+  }
+  
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    text-align: center;
+  }
+  
+  .categories-tabs {
+    gap: 6px;
+  }
+  
+  .tab {
+    padding: 8px 12px;
+    font-size: 12px;
+    min-width: 120px;
+  }
+  
+  .search-box i {
+    font-size: 16px;
+  }
+  
+  #search-input {
+    font-size: 14px;
+    padding: 16px 0;
+  }
+}
+
+/* Asegurar que no haya desbordamiento horizontal */
+@media (max-width: 400px) {
+  .container {
+    padding: 0 12px;
+  }
+  
+  .tab {
+    min-width: 110px;
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+  
+  .hero-title {
+    font-size: 1.6rem;
+  }
+}

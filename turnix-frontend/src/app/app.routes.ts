@@ -15,6 +15,8 @@ export const routes: Routes = [
   { path: 'login', component: Login },
   { path: 'registro', component: Register },
   { path: 'negocio/:id', component: NegocioDetail },
+  { path: 'home', component: Home }, // ← Debe estar así
+  { path: '', component: Home },     // ← Y esta también
   
   
   { path: 'booking/:negocioId', component: Booking, canActivate: [AuthGuard] },
