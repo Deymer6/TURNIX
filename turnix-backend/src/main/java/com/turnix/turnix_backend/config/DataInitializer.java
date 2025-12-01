@@ -2,8 +2,6 @@ package com.turnix.turnix_backend.config;
 
 import com.turnix.turnix_backend.model.*;
 import com.turnix.turnix_backend.repository.*;
-import com.turnix.turnix_backend.model.Usuario;
-import com.turnix.turnix_backend.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 @Component
 @AllArgsConstructor
@@ -32,6 +31,8 @@ public class DataInitializer implements CommandLineRunner {
     private final ResenaRepository resenaRepository;
     private final GaleriaNegocioRepository galeriaNegocioRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
+
 
     @Override
     public void run(String... args) throws Exception {
@@ -40,22 +41,28 @@ public class DataInitializer implements CommandLineRunner {
             System.out.println("Base de datos vacía. Inicializando datos de prueba...");
             System.out.println("====================================================");
 
-            // --- 1. Crear Usuarios (Dueños y Clientes) ---
-            Usuario dueno1 = createUsuario("Admin", "Principal", "admin@turnix.com", "987654321", "ADMIN");
-            Usuario cliente1 = createUsuario("Lucia", "Fernandez", "lucia.f@example.com", "933333333", "CLIENTE");
-            Usuario cliente2 = createUsuario("Marcos", "Polo", "marcos.p@example.com", "944444444", "CLIENTE");
-            Usuario cliente3 = createUsuario("Ana", "Guerra", "ana.g@example.com", "955555555", "CLIENTE");
-            Usuario cliente4 = createUsuario("Pedro", "Perez", "pedro.p@example.com", "966666666", "CLIENTE");
-            Usuario cliente5 = createUsuario("Sofia", "Reyes", "sofia.r@example.com", "977777777", "CLIENTE");
-            Usuario cliente6 = createUsuario("Carlos", "Santana", "carlos.s@example.com", "911223344", "CLIENTE");
-            Usuario cliente7 = createUsuario("Laura", "Vega", "laura.v@example.com", "922334455", "CLIENTE");
-            Usuario cliente8 = createUsuario("Javier", "Mora", "javier.m@example.com", "933445566", "CLIENTE");
-            Usuario cliente9 = createUsuario("Elena", "Nito", "elena.n@example.com", "944556677", "CLIENTE");
-            Usuario cliente10 = createUsuario("Mario", "Bros", "mario.b@example.com", "955667788", "CLIENTE");
+            // --- 0. Crear Roles ---
+            Role adminRole = new Role(null, "ROLE_ADMIN");
+            Role userRole = new Role(null, "ROLE_USER");
+            roleRepository.saveAll(List.of(adminRole, userRole));
+            System.out.println("-> Roles creados.");
 
-            List<Usuario> usuariosGuardados = usuarioRepository.saveAll(Arrays.asList(dueno1, cliente1, cliente2, cliente3, cliente4, cliente5, cliente6, cliente7, cliente8, cliente9, cliente10));
+            // --- 1. Crear Usuarios (Dueños y Clientes) ---
+            Usuario dueno1 = createUsuario("Admin", "Principal", "admin@turnix.com", "987654321", Set.of(adminRole));
+           Usuario dueno2 = createUsuario("Lucia", "Fernandez", "lucia.f@example.com", "933333333", Set.of(adminRole));
+            Usuario cliente2 = createUsuario("Marcos", "Polo", "marcos.p@example.com", "944444444", Set.of(userRole));
+            Usuario cliente3 = createUsuario("Ana", "Guerra", "ana.g@example.com", "955555555", Set.of(userRole));
+            Usuario cliente4 = createUsuario("Pedro", "Perez", "pedro.p@example.com", "966666666", Set.of(userRole));
+            Usuario cliente5 = createUsuario("Sofia", "Reyes", "sofia.r@example.com", "977777777", Set.of(userRole));
+            Usuario cliente6 = createUsuario("Carlos", "Santana", "carlos.s@example.com", "911223344", Set.of(userRole));
+            Usuario cliente7 = createUsuario("Laura", "Vega", "laura.v@example.com", "922334455", Set.of(userRole));
+            Usuario cliente8 = createUsuario("Javier", "Mora", "javier.m@example.com", "933445566", Set.of(userRole));
+            Usuario cliente9 = createUsuario("Elena", "Nito", "elena.n@example.com", "944556677", Set.of(userRole));
+            Usuario cliente10 = createUsuario("Mario", "Bros", "mario.b@example.com", "955667788", Set.of(userRole));
+
+            List<Usuario> usuariosGuardados = usuarioRepository.saveAll(Arrays.asList(dueno1, dueno2, cliente2, cliente3, cliente4, cliente5, cliente6, cliente7, cliente8, cliente9, cliente10));
             Usuario duenoGuardado = usuariosGuardados.get(0);
-            Usuario clienteGuardado1 = usuariosGuardados.get(1);
+            Usuario duenoGuardado2 = usuariosGuardados.get(1);
             Usuario clienteGuardado2 = usuariosGuardados.get(2);
             Usuario clienteGuardado3 = usuariosGuardados.get(3);
             Usuario clienteGuardado4 = usuariosGuardados.get(4);
@@ -63,9 +70,9 @@ public class DataInitializer implements CommandLineRunner {
             System.out.println("-> Usuarios creados.");
 
             // --- 2. Crear Negocios ---
-            Negocio negocio1 = createNegocio("Barbería Don Pepe", "Calle Falsa 123, Madrid", duenoGuardado, "912345678", "La barbería tradicional con un toque moderno.", "09:00", "20:00");
-            Negocio negocio3 = createNegocio("Salón de Belleza 'Estilo Divino'", "Paseo de la Castellana 100, Madrid", duenoGuardado, "911223344", "Expertos en color, corte y maquillaje para realzar tu belleza.", "10:00", "20:00");
-            
+             Negocio negocio1 = createNegocio("Barbería Don Pepe", "Calle Falsa 123, Madrid", duenoGuardado, "912345678", "La barbería tradicional con un toque moderno.", "09:00", "20:00", "Madrid", TipoNegocio.BARBERIA);
+             Negocio negocio3 = createNegocio("Salón de Belleza 'Estilo Divino'", "Paseo de la Castellana 100, Madrid", duenoGuardado2, "911223344", "Expertos en color, corte y maquillaje para realzar tu belleza.", "10:00", "20:00", "Madrid", TipoNegocio.SALON_BELLEZA);
+
             List<Negocio> negociosGuardados = negocioRepository.saveAll(Arrays.asList(negocio1, negocio3));
             Negocio negocioGuardado1 = negociosGuardados.get(0);
             Negocio negocioGuardado3 = negociosGuardados.get(1);
@@ -81,9 +88,9 @@ public class DataInitializer implements CommandLineRunner {
             List<Profesional> profesionalesGuardados = profesionalRepository.saveAll(Arrays.asList(prof1, prof2, prof6, prof7, prof8));
             Profesional profGuardado1 = profesionalesGuardados.get(0);
             Profesional profGuardado2 = profesionalesGuardados.get(1);
-            Profesional profGuardado6 = profesionalesGuardados.get(2); 
-            Profesional profGuardado7 = profesionalesGuardados.get(3); 
-            Profesional profGuardado8 = profesionalesGuardados.get(4); 
+            Profesional profGuardado6 = profesionalesGuardados.get(2);
+            Profesional profGuardado7 = profesionalesGuardados.get(3);
+            Profesional profGuardado8 = profesionalesGuardados.get(4);
             System.out.println("-> Profesionales creados.");
 
             // --- 4. Crear Servicios ---
@@ -131,17 +138,17 @@ public class DataInitializer implements CommandLineRunner {
             createDisponibilidad(profGuardado6, 6, "10:00", "15:00"); // Sábado (Isabel)
             createDisponibilidad(profGuardado8, 5, "15:00", "20:00"); // Viernes (Miguel)
             createDisponibilidad(profGuardado8, 6, "12:00", "20:00"); // Sábado (Miguel)
-          
+
             createExcepcionDiaCompleto(profGuardado1, LocalDateTime.now().plusDays(10), "ASUNTOS_PERSONALES"); // Carlos no disponible
             createExcepcionDiaCompleto(profGuardado6, LocalDateTime.now().plusDays(15), "CURSO_FORMACION"); // Isabel no disponible
-           
+
             createExcepcionBloqueHoras(profGuardado1, LocalDateTime.now().plusDays(3), "PAUSA_ALMUERZO", "14:00", "15:00");
             System.out.println("-> Horarios de disponibilidad y excepciones creados.");
 
             // --- 8. Crear Citas ---
-            Cita cita1 = createCita(clienteGuardado1, negocioGuardado1, profGuardado1, s2, LocalDateTime.now().plusDays(2).withHour(10).withMinute(30), "PROGRAMADA", "Perfilado de barba para evento.");
+           Cita cita1 = createCita(duenoGuardado2, negocioGuardado1, profGuardado1, s2, LocalDateTime.now().plusDays(2).withHour(10).withMinute(30), "PROGRAMADA", "Perfilado de barba para evento.");
             Cita citaCompletada1 = createCita(clienteGuardado3, negocioGuardado1, profGuardado2, s1, LocalDateTime.now().minusDays(1).withHour(11).withMinute(30), "COMPLETADA", "Corte clásico, todo perfecto.");
-            Cita citaCancelada = createCita(clienteGuardado1, negocioGuardado1, profGuardado1, s1, LocalDateTime.now().plusDays(4).withHour(12).withMinute(30), "CANCELADA", "Cliente canceló por imprevisto.");
+           Cita citaCancelada = createCita(duenoGuardado2, negocioGuardado1, profGuardado1, s1, LocalDateTime.now().plusDays(4).withHour(12).withMinute(30), "CANCELADA", "Cliente canceló por imprevisto.");
             Cita citaNoAsistio = createCita(clienteGuardado2, negocioGuardado1, profGuardado1, s3, LocalDateTime.now().minusDays(3).withHour(16).withMinute(0), "NO_ASISTIO", "El cliente no se presentó a la cita.");
             Cita citaCorteDama = createCita(clienteGuardado4, negocioGuardado3, profGuardado7, s7, LocalDateTime.now().plusDays(8).withHour(14).withMinute(0), "PROGRAMADA", "Corte de puntas y peinado para boda.");
             Cita citaMaquillaje = createCita(clienteGuardado5, negocioGuardado3, profGuardado8, s9, LocalDateTime.now().plusDays(5).withHour(18).withMinute(0), "PROGRAMADA", "Maquillaje para evento de noche.");
@@ -153,11 +160,11 @@ public class DataInitializer implements CommandLineRunner {
             // --- 9. Crear Reseñas (asociadas a una cita completada) ---
             createResena(clienteGuardado3, citasGuardadas.get(1), 5, "¡Excelente corte! Juan es muy detallista y profesional.");
             createResena(clienteGuardado5, citasGuardadas.get(6), 5, "Isabel es una artista con el color. ¡Amo mis nuevas mechas!");
-            
+
             System.out.println("-> Reseñas creadas.");
 
             // --- 10. Crear Galería de Negocios ---
-           
+
             galeriaNegocioRepository.saveAll(Arrays.asList(
                 createGaleria(negocioGuardado1, "/images/barberia-interior.jpg", "Interior de nuestra barbería."),
                 createGaleria(negocioGuardado1, "/images/barberia-fachada.jpg", "Fachada de Barbería Don Pepe."),
@@ -183,18 +190,18 @@ public class DataInitializer implements CommandLineRunner {
         }
     }
 
-    private Usuario createUsuario(String nombre, String apellido, String email, String telefono, String rol) {
+    private Usuario createUsuario(String nombre, String apellido, String email, String telefono, Set<Role> roles) {
         Usuario usuario = new Usuario();
-        usuario.setNombre(nombre); 
-        usuario.setApellido(apellido); 
-        usuario.setEmail(email); 
-        usuario.setTelefono(telefono); 
-        usuario.setPasswordHash(passwordEncoder.encode("password123")); 
-        usuario.setRol(rol);
+        usuario.setNombre(nombre);
+        usuario.setApellido(apellido);
+        usuario.setEmail(email);
+        usuario.setTelefono(telefono);
+        usuario.setPasswordHash(passwordEncoder.encode("password123"));
+        usuario.setRoles(roles);
         return usuario;
     }
 
-    private Negocio createNegocio(String nombre, String direccion, Usuario dueno, String telefono, String descripcion, String apertura, String cierre) {
+    private Negocio createNegocio(String nombre, String direccion, Usuario dueno, String telefono, String descripcion, String apertura, String cierre, String ciudad, TipoNegocio tipo) {
         Negocio negocio = new Negocio();
         negocio.setNombreNegocio(nombre);
         negocio.setDireccion(direccion);
@@ -203,6 +210,8 @@ public class DataInitializer implements CommandLineRunner {
         negocio.setDescripcion(descripcion);
         negocio.setHorarioApertura(LocalTime.parse(apertura));
         negocio.setHorarioCierre(LocalTime.parse(cierre));
+        negocio.setCiudad(ciudad);
+        negocio.setTipo(tipo);
         return negocio;
     }
 
@@ -256,9 +265,9 @@ public class DataInitializer implements CommandLineRunner {
         ExcepcionHorario excepcion = new ExcepcionHorario();
         excepcion.setProfesional(profesional);
         excepcion.setFechaEspecifica(fecha.toLocalDate());
-        excepcion.setTipo(tipo); 
-        excepcion.setHoraInicio(LocalTime.MIN); 
-        excepcion.setHoraFin(LocalTime.MAX);   
+        excepcion.setTipo(tipo);
+        excepcion.setHoraInicio(LocalTime.MIN);
+        excepcion.setHoraFin(LocalTime.MAX);
         excepcionHorarioRepository.save(excepcion);
     }
 

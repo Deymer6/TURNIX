@@ -1,4 +1,3 @@
-/* VARIABLES Y RESET */
 * {
   margin: 0;
   padding: 0;
@@ -9,25 +8,19 @@
   min-height: 100vh;
   background: #0a0a0a;
   color: #ffffff;
-}
-/* SCROLL DEL HOME - AGREGA ESTO AL FINAL */
-.home-container {
-    min-height: 100vh;
-    background: #0a0a0a;
-    color: #ffffff;
-    overflow: visible !important; /* ← IMPORTANTE */
-    height: auto !important;
+  overflow-x: hidden;
+  width: 100%;
 }
 
-/* Asegura que todas las secciones permitan scroll */
 app-encabezado, 
 app-categorias, 
 app-lista-negocios, 
 app-como-funciona, 
 app-pie-pagina {
-    display: block;
-    overflow: visible !important;
+  display: block;
+  overflow: visible !important;
 }
+
 /* VARIABLES Y RESET */
 * {
   margin: 0;
@@ -53,9 +46,6 @@ app-pie-pagina {
   overflow: visible !important;
 }
 
-/* ========================================
-   RESPONSIVE COMPLETO PARA HOME
-======================================== */
 
 /* Tablets (768px - 1024px) */
 @media (max-width: 1024px) {

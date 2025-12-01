@@ -21,8 +21,9 @@ public class ProfesionalController {
         return profesionalService.getAllProfesionales();
     }
 
+   
     @GetMapping("/{id}")
-    public ResponseEntity<Profesional> getProfesionalById(@PathVariable Long id) {
+    public ResponseEntity<Profesional> getProfesionalById(@PathVariable Integer id) {
         Optional<Profesional> profesional = profesionalService.getProfesionalById(id);
         return profesional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -32,13 +33,26 @@ public class ProfesionalController {
         return profesionalService.createProfesional(profesional);
     }
 
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<Profesional> updateProfesional(@PathVariable Integer id, @RequestBody Profesional profesional) {
+        Profesional updated = profesionalService.updateProfesional(id, profesional);
+        if (updated != null) {
+            return ResponseEntity.ok(updated);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProfesional(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteProfesional(@PathVariable Integer id) {
         profesionalService.deleteProfesional(id);
         return ResponseEntity.noContent().build();
     }
+
     @GetMapping("/negocio/{negocioId}")
-    public List<Profesional> getProfesionalesByNegocio(@PathVariable Integer negocioId) { // O Long
-    return profesionalService.getProfesionalesByNegocioId(negocioId);
-}
+    public List<Profesional> getProfesionalesByNegocio(@PathVariable Integer negocioId) {
+        return profesionalService.getProfesionalesByNegocioId(negocioId);
+    }
 }

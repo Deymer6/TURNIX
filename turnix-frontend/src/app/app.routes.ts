@@ -9,6 +9,8 @@ import { GestionServiciosComponent } from './components/dashboard/gestion-servic
 import { GestionCitasComponent } from './components/dashboard/gestion-citas/gestion-citas';
 import { GestionPromocionesComponent } from './components/dashboard/gestion-promociones/gestion-promociones';
 import { AuthGuard } from './guards/auth.guard'; 
+import { CrearNegocioComponent } from './components/crear-negocio/crear-negocio';
+import { GestionProfesionales } from './components/dashboard/gestion-profesionales/gestion-profesionales';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -18,19 +20,25 @@ export const routes: Routes = [
   { path: 'home', component: Home }, // ← Debe estar así
   { path: '', component: Home },     // ← Y esta también
   
-  
+  { path: 'crear-negocio', component: CrearNegocioComponent, canActivate: [AuthGuard] },
   { path: 'booking/:negocioId', component: Booking, canActivate: [AuthGuard] },
 
-  /* Rutas del Dashboard (Panel de Administración)
+  // Rutas del Dashboard (Panel de Administración)
   {
     path: 'dashboard/:negocioId',
     component: Dashboard,
-    // canActivate: [AuthGuard], // (Opcional) Deberías proteger el dashboard también
+    canActivate: [AuthGuard], // Protegido por AuthGuard
     children: [
       { path: 'servicios', component: GestionServiciosComponent },
       { path: 'citas', component: GestionCitasComponent },
       { path: 'promociones', component: GestionPromocionesComponent },
+      { path: 'profesionales', component: GestionProfesionales },
       { path: '', redirectTo: 'servicios', pathMatch: 'full' }
     ]
-  }*/
+  },
+  {
+    path: 'dashboard', // Optional route for dashboard without negocioId
+    component: Dashboard,
+    canActivate: [AuthGuard]
+  }
 ];

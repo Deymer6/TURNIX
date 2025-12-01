@@ -7,6 +7,9 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "Usuario")
 @Data
@@ -41,10 +44,13 @@ public class Usuario {
     @Column(name = "Password_Hash", nullable = false)
     private String passwordHash;
 
-    @NotBlank
-    @Size(max = 10)
-    @Column(name = "Rol", nullable = false, length = 10)
-    private String rol;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "usuario_roles",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
 
     @Transient
     private String password;
