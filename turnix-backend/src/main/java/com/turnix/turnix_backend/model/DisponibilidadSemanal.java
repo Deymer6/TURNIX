@@ -1,5 +1,6 @@
 package com.turnix.turnix_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties; // <--- IMPORTANTE
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,8 @@ import java.time.LocalTime;
 @Table(name = "Disponibilidad_Semanal")
 @Data
 @NoArgsConstructor
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) 
 public class DisponibilidadSemanal {
 
     @Id
@@ -18,6 +21,8 @@ public class DisponibilidadSemanal {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_Profesional", nullable = false)
+
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "disponibilidades", "citas", "negocio"})
     private Profesional profesional;
 
     @Column(name = "Dia_Semana", nullable = false)

@@ -4,6 +4,7 @@ import com.turnix.turnix_backend.model.Profesional;
 import com.turnix.turnix_backend.service.ProfesionalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/profesionales")
+@EnableMethodSecurity(prePostEnabled = true)
 public class ProfesionalController {
 
     @Autowired

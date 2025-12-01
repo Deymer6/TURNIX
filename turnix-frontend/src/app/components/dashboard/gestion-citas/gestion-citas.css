@@ -59,6 +59,76 @@
     min-width: 200px;
 }
 
+/* ... Tus estilos anteriores ... */
+
+/* ESTILOS DEL MODAL */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); /* Fondo oscuro transparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #1e1e1e; /* Color oscuro a juego con tu tema */
+    padding: 2rem;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #333;
+    padding-bottom: 0.5rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: #aaa;
+}
+
+.form-group input, 
+.form-group select {
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 4px;
+    border: 1px solid #333;
+    background: #2a2a2a;
+    color: white;
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
 /* General button styling for consistency */
 .btn {
     padding: 0.75rem 1.25rem;
@@ -192,4 +262,236 @@
     .status {
         min-width: unset;
     }
+}/* ... Tus estilos anteriores ... */
+
+/* --- CONTENEDOR PRINCIPAL --- */
+.gestion-promociones-container {
+    padding: 20px;
+    color: #333;
+}
+
+.dashboard-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    color: #e0e0e0; /* Título claro si el fondo general es oscuro */
+}
+
+/* --- FILTROS Y BOTONES SUPERIORES --- */
+.filters {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    align-items: center;
+}
+
+.filters input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333;
+    font-size: 0.95rem;
+    width: 300px;
+}
+
+.filters button {
+    margin-left: auto; /* Empuja el botón a la derecha */
+}
+
+/* --- TABLA DE PROMOCIONES --- */
+.promociones-table {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    background-color: #f9f9f9;
+    color: #666;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    padding: 18px 15px;
+    text-align: left;
+    border-bottom: 2px solid #eee;
+}
+
+td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+    color: #444;
+    font-size: 0.95rem;
+}
+
+/* --- BADGES DE ESTADO (Colores) --- */
+.status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-activa {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.status-inactiva {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* --- BOTONES DE ACCIÓN --- */
+.acciones {
+    display: flex;
+    gap: 8px;
+}
+
+.btn {
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 8px 16px;
+    transition: opacity 0.2s;
+    font-weight: 500;
+}
+
+.btn:hover { opacity: 0.9; }
+
+.btn-primary { background-color: #ff6b35; color: white; }
+.btn-secondary { background-color: #6c757d; color: white; }
+.btn-danger { background-color: #dc3545; color: white; }
+
+/* =========================================
+   ESTILOS DEL MODAL (VENTANA EMERGENTE)
+   ========================================= */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); /* Fondo oscuro transparente */
+    backdrop-filter: blur(3px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-content {
+    background-color: #2b2b2b; /* Fondo gris oscuro estilo Turnix */
+    color: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+    border: 1px solid #444;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #444;
+    font-size: 1.5rem;
+    color: #ff6b35; /* Color acento naranja */
+}
+
+/* Estilos del Formulario dentro del Modal */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #ccc;
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    background-color: #3a3a3a;
+    border: 1px solid #555;
+    border-radius: 5px;
+    color: white;
+    font-size: 1rem;
+    resize: vertical; /* Para el textarea */
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #ff6b35;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+/* Checkbox personalizado */
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #fff;
+}
+
+.checkbox-group input {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+/* Botones del modal */
+.modal-actions {
+    margin-top: 25px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.modal-actions .btn-secondary {
+    background-color: #555;
+    padding: 10px 20px;
+}
+
+.modal-actions .btn-primary {
+    padding: 10px 20px;
 }

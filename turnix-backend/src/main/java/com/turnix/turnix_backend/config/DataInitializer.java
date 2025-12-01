@@ -165,21 +165,28 @@ public class DataInitializer implements CommandLineRunner {
 
             // --- 10. Crear Galería de Negocios ---
 
+            String baseUrl = "http://localhost:8080";
+
             galeriaNegocioRepository.saveAll(Arrays.asList(
-                createGaleria(negocioGuardado1, "/images/barberia-interior.jpg", "Interior de nuestra barbería."),
-                createGaleria(negocioGuardado1, "/images/barberia-fachada.jpg", "Fachada de Barbería Don Pepe."),
-                createGaleria(negocioGuardado1, "/images/barberia-afeitado.jpg", "Servicio de afeitado clásico con navaja."),
-                createGaleria(negocioGuardado1, "/images/barberia-perfilado-barba.jpg", "Perfilado de barba profesional."),
-                createGaleria(negocioGuardado1, "/images/barberia-corte-clasico.jpg", "Servicio de corte clásico para caballero."),
-                createGaleria(negocioGuardado3, "/images/salon-interior.jpg", "Nuestro moderno salón de belleza."),
-                createGaleria(negocioGuardado3, "/images/salon-interior-2.jpg", "Área de recepción y espera."),
-                createGaleria(negocioGuardado3, "/images/salon-fachada.jpg", "Entrada a Estilo Divino."),
-                createGaleria(negocioGuardado3, "/images/salon-color.jpg", "Resultados de coloración profesional."),
-                createGaleria(negocioGuardado3, "/images/salon-maquillaje.jpg", "Maquillaje profesional para eventos."),
-                createGaleria(negocioGuardado3, "/images/salon-manicura.jpg", "Servicio de manicura completa."),
-                createGaleria(negocioGuardado3, "/images/salon-keratina.jpg", "Tratamiento de keratina para un cabello radiante.")
+                // Barbería Don Pepe (Negocio 1)
+                createGaleria(negocioGuardado1, baseUrl + "/images/barberia-interior.jpg", "Interior de nuestra barbería."),
+                createGaleria(negocioGuardado1, baseUrl + "/images/barberia-fachada.jpg", "Fachada de Barbería Don Pepe."),
+                createGaleria(negocioGuardado1, baseUrl + "/images/barberia-afeitado.jpg", "Servicio de afeitado clásico con navaja."),
+                createGaleria(negocioGuardado1, baseUrl + "/images/barberia-perfilado-barba.jpg", "Perfilado de barba profesional."),
+                createGaleria(negocioGuardado1, baseUrl + "/images/barberia-corte-clasico.jpg", "Servicio de corte clásico para caballero."),
+                
+                // Estilo Divino (Negocio 3) - OJO CON LAS EXTENSIONES (.jpg, .webp, .avif)
+                // Asegúrate que coincidan EXACTAMENTE con tus archivos
+                createGaleria(negocioGuardado3, baseUrl + "/images/salon-interior.jpg", "Nuestro moderno salón de belleza."),
+                createGaleria(negocioGuardado3, baseUrl + "/images/salon-interior-2.webp", "Área de recepción y espera."),
+                createGaleria(negocioGuardado3, baseUrl + "/images/salon-fachada.webp", "Entrada a Estilo Divino."),
+                createGaleria(negocioGuardado3, baseUrl + "/images/salon-color.webp", "Resultados de coloración profesional."),
+                createGaleria(negocioGuardado3, baseUrl + "/images/salon-maquillaje.webp", "Maquillaje profesional para eventos."),
+                createGaleria(negocioGuardado3, baseUrl + "/images/salon-manicura.avif", "Servicio de manicura completa."),
+                createGaleria(negocioGuardado3, baseUrl + "/images/salon-keratina.jpg", "Tratamiento de keratina para un cabello radiante.")
             ));
-            System.out.println("-> Galería de imágenes creada.");
+            
+            System.out.println("-> Galería de imágenes creada correctamente.");
 
             System.out.println("====================================================");
             System.out.println("¡Inicialización de datos completada!");

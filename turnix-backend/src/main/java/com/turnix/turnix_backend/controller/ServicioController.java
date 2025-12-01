@@ -3,6 +3,7 @@ package com.turnix.turnix_backend.controller;
 import com.turnix.turnix_backend.dto.ServicioRequestDTO;
 import com.turnix.turnix_backend.dto.ServicioResponseDTO;
 import com.turnix.turnix_backend.model.Negocio;
+import com.turnix.turnix_backend.model.Profesional;
 import com.turnix.turnix_backend.model.Servicio;
 import com.turnix.turnix_backend.model.Usuario;
 import com.turnix.turnix_backend.service.NegocioService;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -22,6 +24,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api") 
+@EnableMethodSecurity(prePostEnabled = true)
 public class ServicioController {
 
     @Autowired
@@ -93,4 +96,27 @@ public class ServicioController {
         servicioService.deleteServicio(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/servicios/{id}")
+    public ResponseEntity<Servicio> updateServicio(@PathVariable Long id, @RequestBody ServicioRequestDTO dto) {
+     
+        Optional<Servicio> existente = servicioService.getServicioById(id);
+        
+        if (existente.isPresent()) {
+            Servicio servicio = existente.get();
+            
+            servicio.setNombreServicio(dto.getNombreServicio());
+            servicio.setPrecio(dto.getPrecio());
+            servicio.setDuracionEstimada(dto.getDuracionEstimada());
+            
+            
+            Servicio actualizado = servicioService.createServicio(servicio);
+            return ResponseEntity.ok(actualizado);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+    
 }

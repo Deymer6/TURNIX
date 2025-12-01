@@ -18,19 +18,24 @@ public class GaleriaNegocioService {
         return galeriaNegocioRepository.findAll();
     }
 
-    public Optional<GaleriaNegocio> getGaleriaById(Long id) {
+
+    public Optional<GaleriaNegocio> getGaleriaById(Integer id) {
         return galeriaNegocioRepository.findById(id);
     }
 
     public GaleriaNegocio createGaleria(GaleriaNegocio galeria) {
+        
+        galeria.setId(null); 
         return galeriaNegocioRepository.save(galeria);
     }
 
-    public void deleteGaleria(Long id) {
+  
+    public void deleteGaleria(Integer id) {
         galeriaNegocioRepository.deleteById(id);
     }
 
-    public List<GaleriaNegocio> getGaleriasByNegocioId(Long negocioId) {
+
+    public List<GaleriaNegocio> getGaleriasByNegocioId(Integer negocioId) {
         return galeriaNegocioRepository.findByNegocio_Id(negocioId);
     }
 }

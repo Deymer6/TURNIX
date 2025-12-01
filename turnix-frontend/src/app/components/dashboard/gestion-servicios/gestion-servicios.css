@@ -136,6 +136,101 @@
 .acciones {
     display: flex;
     gap: 0.75rem; /* Increased gap */
+}/* ESTILOS DEL MODAL (Agrega esto al final) */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); /* Fondo oscuro transparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(2px); /* Efecto borroso bonito */
+}
+
+.modal-content {
+    background: #1e1e1e; /* Fondo oscuro del modal */
+    color: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 450px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    border: 1px solid #333;
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #444;
+    padding-bottom: 10px;
+    font-size: 1.5rem;
+    color: #ff6b35; /* Tu color de acento */
+}
+
+.form-group {
+    margin-bottom: 1.2rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #ccc;
+    font-size: 0.9rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #444;
+    background: #2a2a2a;
+    color: white;
+    font-size: 1rem;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #ff6b35;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 2rem;
+}
+
+.btn-cancel {
+    background: #444;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-save {
+    background: #ff6b35;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-save:hover {
+    background: #e55a2b;
 }
 
 /* Responsive adjustments for filters */

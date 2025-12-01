@@ -12,21 +12,22 @@ import java.math.BigDecimal;
 
 @Data
 public class CitaRequestDTO {
+    // ✅ CAMBIO: Long -> Integer (Para coincidir con el resto del sistema)
     @NotNull
     @Positive(message = "El ID del cliente debe ser un número positivo")
-    private Long clienteId;
+    private Integer clienteId;
 
     @NotNull
     @Positive(message = "El ID del negocio debe ser un número positivo")
-    private Long negocioId;
+    private Integer negocioId;
 
     @NotNull
     @Positive(message = "El ID del profesional debe ser un número positivo")
-    private Long profesionalId;
+    private Integer profesionalId;
 
     @NotNull
     @Positive(message = "El ID del servicio debe ser un número positivo")
-    private Long servicioId;
+    private Integer servicioId;
 
     @NotBlank
     @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$", message = "La fecha de inicio debe tener el formato yyyy-MM-dd'T'HH:mm:ss")

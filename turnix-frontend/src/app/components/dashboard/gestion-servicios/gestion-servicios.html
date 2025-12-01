@@ -1,23 +1,20 @@
 <div class="gestion-servicios-container">
-  <h2 class="dashboard-title">Gestión de Servicios</h2>
-    <!-- Filtros -->
+    <h2 class="dashboard-title">Gestión de Servicios</h2>
+    
     <div class="filters">
-        <!-- Búsqueda -->
         <input type="text" id="search-servicio" placeholder="Buscar servicio...">
 
-        <!-- Botón para crear nuevo servicio -->
-        <button class="btn btn-primary">Añadir Servicio</button>
+        <button class="btn btn-primary" (click)="abrirModalCrear()">Añadir Servicio</button>
     </div>
 
-  <div *ngIf="isLoading" class="loading-message">
-    Cargando servicios...
-  </div>
+    <div *ngIf="isLoading" class="loading-message">
+        Cargando servicios...
+    </div>
 
-  <div *ngIf="error" class="error-message">
-    {{ error }}
-  </div>
+    <div *ngIf="error" class="error-message">
+        {{ error }}
+    </div>
 
-    <!-- Tabla de Servicios -->
     <div class="servicios-table">
         <table>
             <thead>
@@ -32,10 +29,9 @@
                 <tr *ngFor="let servicio of servicios">
                     <td>{{ servicio.nombreServicio }}</td>
                     <td>{{ servicio.duracionEstimada }} min</td>
-                    <td>{{ servicio.precio | currency:'EUR' }}</td>
-                    <td class="acciones">
-                        <button class="btn btn-secondary">Editar</button>
-                        <button class="btn btn-danger">Eliminar</button>
+                    <td>€{{ servicio.precio }}</td> <td class="acciones">
+                        <button class="btn btn-secondary" (click)="abrirModalEditar(servicio)">Editar</button>
+                        <button class="btn btn-danger" (click)="eliminarServicio(servicio)">Eliminar</button>
                     </td>
                 </tr>
             </tbody>
@@ -48,5 +44,35 @@
             </ng-template>
         </table>
     </div>
-</div> <!-- Cierre del .gestion-servicios-container -->
 
+    <div class="modal-overlay" *ngIf="mostrarModal">
+        <div class="modal-content">
+            <h3>{{ modoEdicion ? 'Editar Servicio' : 'Nuevo Servicio' }}</h3>
+            
+            <form (ngSubmit)="guardarServicio()">
+                
+                <div class="form-group">
+                    <label>Nombre del Servicio:</label>
+                    <input type="text" [(ngModel)]="servicioForm.nombreServicio" name="nombre" required placeholder="Ej: Corte de Cabello">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Duración (minutos):</label>
+                        <input type="number" [(ngModel)]="servicioForm.duracionEstimada" name="duracion" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Precio (€):</label>
+                        <input type="number" step="0.01" [(ngModel)]="servicioForm.precio" name="precio" required>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-cancel" (click)="cerrarModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-save">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

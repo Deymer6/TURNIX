@@ -35,4 +35,8 @@ export class ProfesionalService {
   eliminarProfesional(id: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/profesionales/${id}`);
   }
+
+  getProfesionalesByNegocioId(negocioId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/profesionales/negocio/${negocioId}`);
+  }
 }

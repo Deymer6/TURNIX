@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
+@EnableMethodSecurity(prePostEnabled = true)
 public class PromocionController {
 
     @Autowired
@@ -47,7 +49,7 @@ public class PromocionController {
     }
 
     @GetMapping("/promociones/{id}")
-    public ResponseEntity<Promocion> getPromocionById(@PathVariable Long id) {
+    public ResponseEntity<Promocion> getPromocionById(@PathVariable Integer id) {
         Optional<Promocion> promocion = promocionService.getPromocionById(id);
         return promocion.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -56,9 +58,19 @@ public class PromocionController {
     public Promocion createPromocion(@RequestBody Promocion promocion) {
         return promocionService.createPromocion(promocion);
     }
+    
+    @PutMapping("/promociones/{id}")
+    public ResponseEntity<Promocion> updatePromocion(@PathVariable Integer id, @RequestBody Promocion promocion) {
+        Promocion actualizada = promocionService.updatePromocion(id, promocion);
+        if (actualizada != null) {
+            return ResponseEntity.ok(actualizada);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     @DeleteMapping("/promociones/{id}")
-    public ResponseEntity<Void> deletePromocion(@PathVariable Long id) {
+    public ResponseEntity<Void> deletePromocion(@PathVariable Integer id) {
         promocionService.deletePromocion(id);
         return ResponseEntity.noContent().build();
     }

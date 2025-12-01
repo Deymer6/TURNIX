@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CitaResponseDTO {
-    private Long id; 
+    private Integer id; // ✅ Integer
     private SimpleUsuarioDTO cliente;
     private SimpleServicioDTO servicio;
     private SimpleProfesionalDTO profesional;
@@ -26,11 +26,9 @@ public class CitaResponseDTO {
     private String notasPromocion;
     private Integer negocioId; 
 
-
-    
     public CitaResponseDTO(Cita cita) {
        if (cita.getId() != null) {
-            this.id = cita.getId().longValue(); 
+            this.id = cita.getId(); 
         }
         this.fechaHoraInicio = cita.getFechaHoraInicio();
         this.fechaHoraFin = cita.getFechaHoraFin();
@@ -51,7 +49,6 @@ public class CitaResponseDTO {
             this.negocioId = cita.getNegocio().getId();
         }
     }
-
 
     @Data
     @NoArgsConstructor
@@ -79,7 +76,8 @@ public class CitaResponseDTO {
         public SimpleServicioDTO(Servicio servicio) {
             this.id = servicio.getId();
             this.nombreServicio = servicio.getNombreServicio();
-            this.duracionEstimada = servicio.getDuracionEstimada();
+            // ✅ CORRECCIÓN CRÍTICA: Evita el NullPointerException si la duración es null
+            this.duracionEstimada = (servicio.getDuracionEstimada() != null) ? servicio.getDuracionEstimada() : 0;
         }
     }
 

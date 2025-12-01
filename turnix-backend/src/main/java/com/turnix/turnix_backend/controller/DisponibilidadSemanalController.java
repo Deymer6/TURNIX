@@ -10,14 +10,22 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/disponibilidades")
+
+@RequestMapping("/api/disponibilidad") 
+@CrossOrigin(origins = "http://localhost:4200") // ✅ Permite Angular
 public class DisponibilidadSemanalController {
 
     @Autowired
     private DisponibilidadSemanalService disponibilidadSemanalService;
 
     @GetMapping
-    public List<DisponibilidadSemanal> getAllDisponibilidades() {
+    public List<DisponibilidadSemanal> getDisponibilidades(
+            @RequestParam(required = false) Integer profesionalId,
+            @RequestParam(required = false) Integer diaSemana
+    ) {
+        if (profesionalId != null || diaSemana != null) {
+            return disponibilidadSemanalService.getDisponibilidadPorFiltros(profesionalId, diaSemana);
+        }
         return disponibilidadSemanalService.getAllDisponibilidades();
     }
 

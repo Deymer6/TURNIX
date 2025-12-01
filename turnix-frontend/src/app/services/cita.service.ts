@@ -6,16 +6,28 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CitaService {
-  private apiUrl = 'http://localhost:8080/api';
+  // Asegúrate de que este puerto sea el correcto (8080)
+  private apiUrl = 'http://localhost:8080/api/citas';
+
   constructor(private http: HttpClient) { }
-  crearCita(citaData: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/citas`, citaData);
-  }
-  // Nuevo método para obtener citas por ID de negocio
+
+  //  Obtener citas por Negocio
   getCitasPorNegocio(negocioId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/citas/negocio/${negocioId}`);
+    return this.http.get<any[]>(`${this.apiUrl}/negocio/${negocioId}`);
   }
-  cancelarCita(citaId: number): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/citas/${citaId}/cancelar`, {});
+
+  //  Crear Cita
+  crearCita(citaData: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, citaData);
+  }
+
+  // Editar Cita (Faltaba pulir este)
+  actualizarCita(id: number, citaData: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, citaData);
+  }
+
+  //  Eliminar Cita
+  eliminarCita(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
 }

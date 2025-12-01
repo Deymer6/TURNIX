@@ -31,5 +31,8 @@ export class ServicioService {
     return this.http.put<any>(`${this.apiUrl}/servicios/${id}`, servicio);
   }
 
+  getServiciosByNegocioId(negocioId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/servicios/negocio/${negocioId}`);
+  }
   
 }

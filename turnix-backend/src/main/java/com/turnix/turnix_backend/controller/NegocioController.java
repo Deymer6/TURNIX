@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -31,6 +32,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/negocios")
 @Validated
+@EnableMethodSecurity(prePostEnabled = true)
 public class NegocioController {
 
     @Autowired

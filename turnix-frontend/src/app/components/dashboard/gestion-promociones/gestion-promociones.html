@@ -1,15 +1,14 @@
 <div class="gestion-promociones-container">
     <h2 class="dashboard-title">Gestión de Promociones</h2>
-    <!-- Filtros -->
+    
     <div class="filters">
-        <!-- Búsqueda -->
         <input type="text" id="search-promocion" placeholder="Buscar promoción...">
-
-        <!-- Botón para crear nueva promoción -->
-        <button class="btn btn-primary">Añadir Promoción</button>
+        <button class="btn btn-primary" (click)="abrirModalCrear()">Añadir Promoción</button>
     </div>
 
-    <!-- Tabla de Promociones -->
+    <div *ngIf="isLoading" class="loading-message">Cargando promociones...</div>
+    <div *ngIf="error" class="error-message">{{ error }}</div>
+
     <div class="promociones-table">
         <table>
             <thead>
@@ -22,26 +21,64 @@
                     <th>Acciones</th>
                 </tr>
             </thead>
-            <tbody *ngIf="promociones.length > 0; else noPromociones">
+            <tbody *ngIf="!isLoading && !error && promociones.length > 0; else noPromociones">
                 <tr *ngFor="let promocion of promociones">
                     <td>{{ promocion.titulo }}</td>
                     <td>{{ promocion.descripcion }}</td>
                     <td>{{ promocion.fechaInicio | date:'dd/MM/yyyy' }}</td>
                     <td>{{ promocion.fechaFin | date:'dd/MM/yyyy' }}</td>
-                    <td><span class="status" [ngClass]="{'status-activa': promocion.activa, 'status-inactiva': !promocion.activa}">{{ promocion.activa ? 'Activa' : 'Inactiva' }}</span></td>
+                    <td>
+                        <span class="status" [ngClass]="{'status-activa': promocion.activa, 'status-inactiva': !promocion.activa}">
+                            {{ promocion.activa ? 'Activa' : 'Inactiva' }}
+                        </span>
+                    </td>
                     <td class="acciones">
-                        <button class="btn btn-secondary">Editar</button>
-                        <button class="btn btn-danger">Eliminar</button>
+                        <button class="btn btn-secondary" (click)="abrirModalEditar(promocion)">Editar</button>
+                        <button class="btn btn-danger" (click)="eliminarPromocion(promocion)">Eliminar</button>
                     </td>
                 </tr>
             </tbody>
             <ng-template #noPromociones>
                 <tbody>
-                    <tr>
-                        <td colspan="6" style="text-align: center; padding: 2rem;">No hay promociones para mostrar.</td>
-                    </tr>
+                    <tr><td colspan="6" style="text-align: center; padding: 2rem;">No hay promociones para mostrar.</td></tr>
                 </tbody>
             </ng-template>
         </table>
     </div>
-</div> <!-- Cierre del .gestion-promociones-container -->
+
+    <div class="modal-overlay" *ngIf="mostrarModal">
+        <div class="modal-content">
+            <h3>{{ modoEdicion ? 'Editar Promoción' : 'Nueva Promoción' }}</h3>
+            <form (ngSubmit)="guardarPromocion()">
+                <div class="form-group">
+                    <label>Título:</label>
+                    <input type="text" [(ngModel)]="promoForm.titulo" name="titulo" required>
+                </div>
+                <div class="form-group">
+                    <label>Descripción:</label>
+                    <textarea [(ngModel)]="promoForm.descripcion" name="descripcion" required rows="3"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Inicio:</label>
+                        <input type="date" [(ngModel)]="promoForm.fechaInicio" name="fechaInicio" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Fin:</label>
+                        <input type="date" [(ngModel)]="promoForm.fechaFin" name="fechaFin" required>
+                    </div>
+                </div>
+                <div class="form-group checkbox-group">
+                    <label>
+                        <input type="checkbox" [(ngModel)]="promoForm.activa" name="activa">
+                        Promoción Activa
+                    </label>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -11,13 +11,20 @@ export class PromocionService {
   constructor(private http: HttpClient) { }
 
  
-  getPromocionesPorNegocio(negocioId: number): Observable<any[]> {
+ getPromocionesPorNegocio(negocioId: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/promociones/negocio/${negocioId}`);
   }
 
-  
+  getPromocionById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/promociones/${id}`);
+  }
+
   crearPromocion(promocion: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/promociones`, promocion);
+  }
+
+  actualizarPromocion(id: number, promocion: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/promociones/${id}`, promocion);
   }
 
   eliminarPromocion(id: number): Observable<any> {

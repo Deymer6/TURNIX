@@ -22,8 +22,6 @@ export const routes: Routes = [
   
   { path: 'crear-negocio', component: CrearNegocioComponent, canActivate: [AuthGuard] },
   { path: 'booking/:negocioId', component: Booking, canActivate: [AuthGuard] },
-
-  // Rutas del Dashboard (Panel de Administración)
   {
     path: 'dashboard/:negocioId',
     component: Dashboard,

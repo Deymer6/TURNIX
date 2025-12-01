@@ -7,10 +7,20 @@
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   font-family: Arial, sans-serif;
-  /* Animación suave al cambiar de paso */
-  transition: height 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
+/* Animación de entrada */
+.fade-in {
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- CABECERA DE PASOS --- */
 .paso-header {
   border-bottom: 1px solid #eee;
   padding-bottom: 1rem;
@@ -24,28 +34,28 @@
   margin: 0;
 }
 
-.paso-header .paso-info {
+.subtitulo {
   font-size: 1rem;
   color: #777;
   margin-top: 0.25rem;
 }
 
-
-/* --- PASO 1: SELECCIONAR SERVICIO --- */
-.servicios-list {
+/* --- PASO 1: LISTA DE SERVICIOS --- */
+.servicios-grid {
   display: flex;
   flex-direction: column;
-  gap: 1rem; /* Espacio entre tarjetas */
+  gap: 1rem;
 }
 
 .servicio-card {
   display: flex;
-  justify-content: space-between; /* Alinea contenido a los lados */
+  justify-content: space-between;
   align-items: center;
   padding: 1.5rem;
   border: 1px solid #ddd;
   border-radius: 8px;
   transition: box-shadow 0.2s, border-color 0.2s;
+  cursor: pointer; /* Indica que es clicable */
 }
 
 .servicio-card:hover {
@@ -60,25 +70,23 @@
   margin: 0;
 }
 
-.servicio-info p {
+.duracion {
   font-size: 0.9rem;
   color: #666;
-  margin: 0.25rem 0 0;
+  display: block;
+  margin-top: 5px;
 }
 
-.servicio-accion {
+.servicio-precio {
   display: flex;
   align-items: center;
   gap: 1.5rem;
-}
-
-.servicio-accion .precio {
   font-size: 1.2rem;
   font-weight: bold;
   color: #333;
 }
 
-.seleccionar-btn {
+.btn-select {
   background-color: #1a1a1a;
   color: #ffffff;
   font-size: 0.9rem;
@@ -90,20 +98,12 @@
   transition: background-color 0.2s;
 }
 
-.seleccionar-btn:hover {
+.btn-select:hover {
   background-color: #444;
 }
 
-.no-servicios p {
-  text-align: center;
-  font-size: 1rem;
-  color: #888;
-  padding: 2rem 0;
-}
-
-
-/* --- PASO 2: AGENDAR CITA --- */
-.servicio-resumen {
+/* --- PASO 2: FORMULARIO DE AGENDA --- */
+.resumen-seleccion {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -116,18 +116,17 @@
   color: #333;
 }
 
-.agendar-form {
+.filtros-agenda {
   display: grid;
-  /* Dos columnas de igual tamaño */
-  grid-template-columns: 1fr 1fr; 
+  grid-template-columns: 1fr 1fr; /* Dos columnas */
   gap: 1.5rem;
   margin-bottom: 1.5rem;
 }
 
-/* Estilos de Formulario (reutilizables) */
 .form-group {
   display: flex;
   flex-direction: column;
+  margin-bottom: 1rem;
 }
 
 .form-group label {
@@ -143,40 +142,31 @@
   border: 1px solid #ccc;
   border-radius: 6px;
   background-color: #fff;
-  font-family: Arial, sans-serif;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+  box-sizing: border-box; /* Asegura que el padding no rompa el ancho */
 }
 
 .form-control:focus {
   outline: none;
-  border-color: #007bff; /* Un color de acento */
-  box-shadow: 0 0 5px rgba(0,123,255,0.25);
+  border-color: #007bff;
 }
 
-/* Horarios */
-.horarios-container {
-  margin-bottom: 1.5rem;
+/* --- HORARIOS --- */
+.horarios-section {
+  margin-bottom: 2rem;
 }
 
-.horarios-container label {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #444;
-  margin-bottom: 0.75rem;
-  display: block; /* Para que el margen funcione */
-}
-
-.horarios-grid {
+.slots-grid {
   display: grid;
-  /* 5 columnas */
-  grid-template-columns: repeat(5, 1fr); 
+  grid-template-columns: repeat(5, 1fr); /* 5 columnas */
   gap: 0.75rem;
+  margin-top: 10px;
 }
 
-.hora-btn {
+.time-slot {
   font-size: 0.9rem;
   font-weight: 600;
-  padding: 0.7rem;
+  padding: 0.8rem;
   border: 1px solid #ccc;
   border-radius: 6px;
   background-color: #fff;
@@ -185,62 +175,28 @@
   text-align: center;
 }
 
-.hora-btn:hover {
+.time-slot:hover {
   background-color: #f4f4f4;
   border-color: #999;
 }
 
-/* Estilo para el botón de hora SELECCIONADO */
-.hora-btn.selected {
+.time-slot.selected {
   background-color: #1a1a1a;
   color: #ffffff;
   border-color: #1a1a1a;
+  transform: scale(1.05);
 }
 
-/* Mensajes de carga o error de horarios */
-.horarios-mensaje {
+.loading-text {
   text-align: center;
-  padding: 1rem;
-  background-color: #f8f8f8;
-  border-radius: 6px;
   color: #777;
+  padding: 1rem;
+  background: #f8f8f8;
+  border-radius: 6px;
 }
 
-.horarios-mensaje.error {
-  background-color: #fff2f2;
-  color: #d8000c;
-  border: 1px solid #ffcccc;
-}
-
-
-/* Botón de Continuar (Verde) */
-.continuar-btn {
-  width: 100%;
-  font-size: 1.1rem;
-  font-weight: bold;
-  padding: 0.9rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  background-color: #28a745; /* Verde */
-  color: #ffffff;
-}
-
-.continuar-btn:hover {
-  background-color: #218838;
-}
-
-/* Estilo para el botón deshabilitado */
-.continuar-btn:disabled {
-  background-color: #e0e0e0;
-  color: #999;
-  cursor: not-allowed;
-}
-
-
-/* --- ¡NUEVO! PASO 3: CONFIRMAR RESERVA --- */
-.resumen-box {
+/* --- PASO 3: CONFIRMACIÓN Y CLIENTE --- */
+.resumen-final {
   background-color: #f9f9f9;
   border: 1px solid #eee;
   border-radius: 8px;
@@ -248,86 +204,107 @@
   margin-bottom: 1.5rem;
 }
 
-.resumen-box h2 {
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: #222;
-  margin: 0 0 1rem;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 0.75rem;
-}
-
-.resumen-box p {
+.resumen-item {
+  margin-bottom: 0.5rem;
   font-size: 1rem;
   color: #444;
-  margin: 0.5rem 0;
-  line-height: 1.5;
 }
 
-.resumen-box p strong {
+.resumen-item strong {
+  display: inline-block;
+  width: 120px;
   color: #111;
-  width: 110px;
-  display: inline-block; /* Para alinear */
 }
 
-.form-contacto h2 {
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: #222;
-  margin-bottom: 1rem;
-}
-
-/* El formulario de contacto usará 1 columna */
-.form-contacto .form-group {
-  margin-bottom: 1rem;
-}
-
-.form-contacto textarea {
-  font-family: Arial, sans-serif;
-  resize: vertical; /* Permite cambiar el tamaño verticalmente */
-  min-height: 80px;
-}
-
-
-/* --- ¡NUEVO! PASO 4: ÉXITO --- */
-.exito-box {
-  text-align: center;
-  padding: 2rem;
-}
-
-.exito-box h2 {
-  font-size: 1.8rem;
+.resumen-item.total {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #ddd;
+  font-size: 1.2rem;
   font-weight: bold;
-  color: #28a745; /* Verde */
+  color: #28a745; /* Verde para el precio final */
+}
+
+/* --- BOTONES DE NAVEGACIÓN --- */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.btn-primary {
+  background-color: #28a745; /* Verde confirmar */
+  color: white;
+  border: none;
+  padding: 0.9rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: #218838;
+}
+
+.btn-primary:disabled {
+  background-color: #e0e0e0;
+  color: #999;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background-color: #6c757d; /* Gris volver */
+  color: white;
+  border: none;
+  padding: 0.9rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+/* --- PASO 4: ÉXITO --- */
+.success-view {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.success-icon {
+  font-size: 4rem;
   margin-bottom: 1rem;
 }
 
-.exito-box p {
-  font-size: 1rem;
-  color: #444;
-  line-height: 1.6;
+.ticket {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin: 2rem auto;
+  max-width: 400px;
+  border: 1px dashed #ccc;
+  font-size: 1.1rem;
 }
 
-.exito-box hr {
-  border: 0;
-  border-top: 1px solid #eee;
-  margin: 1.5rem 0;
+.error-msg {
+  color: #dc3545;
+  background: #ffe6e6;
+  padding: 10px;
+  border-radius: 4px;
+  margin-top: 1rem;
+  text-align: center;
 }
 
-.exito-box .seleccionar-btn {
-  margin-top: 1.5rem;
-  background-color: #007bff; /* Botón azul para "Volver" */
-}
-.exito-box .seleccionar-btn:hover {
-  background-color: #0056b3;
-}
-
-
-/* --- Adaptación para celulares --- */
+/* --- RESPONSIVE --- */
 @media (max-width: 600px) {
   .booking-container {
-    padding: 1rem;
     margin: 1rem;
+    padding: 1rem;
   }
 
   .servicio-card {
@@ -335,20 +312,17 @@
     align-items: flex-start;
     gap: 1rem;
   }
-  
-  .servicio-accion {
+
+  .servicio-precio {
     width: 100%;
     justify-content: space-between;
   }
 
-  /* Formulario de Paso 2 en 1 columna */
-  .agendar-form {
-    grid-template-columns: 1fr; 
-    gap: 1rem;
+  .filtros-agenda {
+    grid-template-columns: 1fr; /* 1 columna en móvil */
   }
 
-  /* Horarios en 3 columnas */
-  .horarios-grid {
-    grid-template-columns: repeat(3, 1fr); 
+  .slots-grid {
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas de horas en móvil */
   }
 }

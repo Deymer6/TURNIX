@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/galerias")
+@CrossOrigin(origins = "http://localhost:4200") 
 public class GaleriaNegocioController {
 
     @Autowired
@@ -21,16 +22,16 @@ public class GaleriaNegocioController {
         return galeriaNegocioService.getAllGalerias();
     }
 
-    
+
     @GetMapping("/{id}")
-    public ResponseEntity<GaleriaNegocio> getGaleriaById(@PathVariable Long id) {
+    public ResponseEntity<GaleriaNegocio> getGaleriaById(@PathVariable Integer id) {
         Optional<GaleriaNegocio> galeria = galeriaNegocioService.getGaleriaById(id);
         return galeria.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    
+
     @GetMapping("/negocio/{negocioId}")
-    public List<GaleriaNegocio> getGaleriasByNegocio(@PathVariable Long negocioId) {
+    public List<GaleriaNegocio> getGaleriasByNegocio(@PathVariable Integer negocioId) {
         return galeriaNegocioService.getGaleriasByNegocioId(negocioId);
     }
 
@@ -39,9 +40,9 @@ public class GaleriaNegocioController {
         return galeriaNegocioService.createGaleria(galeria);
     }
 
-    
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteGaleria(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteGaleria(@PathVariable Integer id) {
         galeriaNegocioService.deleteGaleria(id);
         return ResponseEntity.noContent().build();
     }

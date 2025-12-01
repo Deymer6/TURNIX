@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface GaleriaNegocioRepository extends JpaRepository<GaleriaNegocio, Long> {
-    List<GaleriaNegocio> findByNegocio_Id(Long negocioId);
+public interface GaleriaNegocioRepository extends JpaRepository<GaleriaNegocio, Integer> {
+    List<GaleriaNegocio> findByNegocio_Id(Integer negocioId);
 }

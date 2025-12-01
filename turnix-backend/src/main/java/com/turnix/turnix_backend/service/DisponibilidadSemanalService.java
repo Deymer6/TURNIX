@@ -22,6 +22,17 @@ public class DisponibilidadSemanalService {
         return disponibilidadSemanalRepository.findById(id);
     }
 
+    
+    public List<DisponibilidadSemanal> getDisponibilidadPorFiltros(Integer profesionalId, Integer diaSemana) {
+        if (profesionalId != null && diaSemana != null) {
+            return disponibilidadSemanalRepository.findByProfesional_IdAndDiaSemana(profesionalId, diaSemana);
+        } else if (profesionalId != null) {
+            return disponibilidadSemanalRepository.findByProfesional_Id(profesionalId);
+        } else {
+            return getAllDisponibilidades();
+        }
+    }
+
     public DisponibilidadSemanal createDisponibilidad(DisponibilidadSemanal disponibilidad) {
         return disponibilidadSemanalRepository.save(disponibilidad);
     }

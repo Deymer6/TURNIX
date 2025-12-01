@@ -1,74 +1,153 @@
 <div class="gestion-citas-container">
     <h2 class="dashboard-title">Gestión de Citas</h2>
-    <!-- Filtros -->
+
     <div class="filters">
-        <!-- Filtro por Status -->
-        <select id="status-filter">
+        <select>
             <option value="">Todos los estados</option>
-            <option value="confirmado">Confirmado</option>
-            <option value="pendiente">Pendiente</option>
-            <option value="completado">Completado</option>
-            <option value="cancelado">Cancelado</option>
+            <option value="PROGRAMADA">Programada</option>
+            <option value="COMPLETADA">Completada</option>
+            <option value="CANCELADA">Cancelada</option>
         </select>
 
-        <!-- Filtro por Staff -->
-        <select id="staff-filter">
+        <select>
             <option value="">Todo el staff</option>
-            <!-- Opciones de staff se cargarán dinámicamente -->
+            <option *ngFor="let p of staffList" [value]="p.id">
+                {{ p.nombre }} {{ p.apellido }}
+            </option>
         </select>
 
-        <!-- Filtro por Servicio -->
-        <select id="service-filter">
+        <select>
             <option value="">Todos los servicios</option>
-            <!-- Opciones de servicio se cargarán dinámicamente -->
+            <option *ngFor="let s of serviciosList" [value]="s.id">
+                {{ s.nombreServicio }}
+            </option>
         </select>
 
-        <!-- Filtro de Calendario -->
-        <input type="date" id="date-filter">
-
-        <!-- Búsqueda -->
-        <input type="text" id="search-input" placeholder="Buscar cita...">
-
-        <!-- Botón para crear nueva cita -->
-        <button class="btn btn-primary">Crear Nueva Cita</button>
+        <input type="date">
+        
+        <button class="btn btn-primary" (click)="abrirModalCrear()">+ Crear Nueva Cita</button>
     </div>
 
-    <!-- Tabla de Citas -->
     <div class="citas-table">
         <table>
             <thead>
                 <tr>
-                    <th>Cliente</th>
-                    <th>Servicio</th>
-                    <th>Staff</th>
-                    <th>Hora y Tiempo</th>
-                    <th>Status</th>
-                    <th>Acciones</th>
+                    <th>CLIENTE</th>
+                    <th>SERVICIO</th>
+                    <th>STAFF</th>
+                    <th>FECHA Y HORA</th>
+                    <th>STATUS</th>
+                    <th>ACCIONES</th>
                 </tr>
             </thead>
+            
             <tbody *ngIf="citas.length > 0; else noCitas">
-                <!-- Las filas de citas se insertarán aquí dinámicamente con *ngFor -->
                 <tr *ngFor="let cita of citas">
-                    <td>{{ cita.cliente.nombre }} {{ cita.cliente.apellido }} ({{ cita.cliente.telefono || 'N/A' }})</td>
-                    <td>{{ cita.servicio.nombreServicio }} ({{ cita.servicio.duracionEstimada }} min)</td>
-                    <td>{{ cita.profesional.nombre }}</td>
-                    <td>{{ cita.fechaHoraInicio | date:'shortTime' }} - {{ cita.fechaHoraFin | date:'shortTime' }}</td>
-                    <td><span class="status status-{{ cita.estado | lowercase }}">{{ cita.estado }}</span></td>
+                    <td>
+                        <div class="client-info">
+                            <strong>{{ cita.cliente.nombre }} {{ cita.cliente.apellido }}</strong>
+                            <small>{{ cita.cliente.telefono || 'Sin telf.' }}</small>
+                        </div>
+                    </td>
+                    
+                    <td>{{ cita.servicio.nombreServicio }}</td>
+                    
+                    <td>{{ cita.profesional.nombre }} {{ cita.profesional.apellido }}</td>
+                    
+                    <td>
+                        {{ cita.fechaHoraInicio | date:'dd/MM/yyyy' }} <br>
+                        <span style="color: #aaa;">{{ cita.fechaHoraInicio | date:'shortTime' }}</span>
+                    </td>
+                    
+                    <td>
+                        <span class="status" [ngClass]="'status-' + cita.estado.toLowerCase()">
+                            {{ cita.estado }}
+                        </span>
+                    </td>
+                    
                     <td class="acciones">
-                        <button class="btn btn-secondary">Editar</button>
-                        <button class="btn btn-danger">Quitar</button>
+                        <button class="btn btn-secondary" (click)="abrirModalEditar(cita)">Editar</button>
+                        <button class="btn btn-danger" (click)="eliminarCita(cita)">Quitar</button>
                     </td>
                 </tr>
             </tbody>
-            <!-- El ng-template debe estar dentro de la tabla para que funcione correctamente -->
+
             <ng-template #noCitas>
                 <tbody>
                     <tr>
-                        <td colspan="6" style="text-align: center; padding: 2rem;">No hay citas para mostrar.</td>
+                        <td colspan="6" style="text-align: center; padding: 2rem; color: #888;">
+                            No hay citas registradas para este negocio.
+                        </td>
                     </tr>
                 </tbody>
             </ng-template>
         </table>
     </div>
 
-</div> <!-- Cierre del .gestion-citas-container -->
+    <div class="modal-overlay" *ngIf="mostrarModal">
+        <div class="modal-content">
+            <h3>{{ modoEdicion ? 'Editar Cita' : 'Nueva Cita' }}</h3>
+            
+            <form (ngSubmit)="guardarCita()">
+                
+                <div class="form-group">
+                    <label>ID Cliente:</label>
+                    <input type="number" [(ngModel)]="citaForm.clienteId" name="clienteId" required placeholder="Ej: 1">
+                </div>
+
+                <div class="form-group">
+                    <label>Profesional:</label>
+                    <select [(ngModel)]="citaForm.profesionalId" name="profesionalId" required>
+                        <option value="" disabled>Seleccione...</option>
+                        <option *ngFor="let p of staffList" [value]="p.id">
+                            {{ p.nombre }} {{ p.apellido }}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Servicio:</label>
+                    <select [(ngModel)]="citaForm.servicioId" name="servicioId" required>
+                        <option value="" disabled>Seleccione...</option>
+                        <option *ngFor="let s of serviciosList" [value]="s.id">
+                            {{ s.nombreServicio }} - {{ s.duracionEstimada }} min
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Fecha:</label>
+                        <input type="date" [(ngModel)]="citaForm.fecha" name="fecha" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Hora:</label>
+                        <input type="time" [(ngModel)]="citaForm.hora" name="hora" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Estado:</label>
+                        <select [(ngModel)]="citaForm.estado" name="estado">
+                            <option value="PROGRAMADA">Programada</option>
+                            <option value="COMPLETADA">Completada</option>
+                            <option value="CANCELADA">Cancelada</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Precio Final:</label>
+                        <input type="number" [(ngModel)]="citaForm.precioFinal" name="precioFinal" required>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</div>

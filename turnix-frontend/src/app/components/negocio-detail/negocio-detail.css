@@ -1,548 +1,156 @@
+/* =========================================
+   ESTILOS GENERALES (SE APLICAN SIEMPRE)
+   ========================================= */
 
-.negocio-detail-container {
-  max-width: 800px;
-  margin: 0 auto;
-  background: white;
-  min-height: 100vh;
+.profile-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    color: #fff; /* Texto blanco por si el fondo es oscuro */
+    background-color: #121212; /* Fondo oscuro de respaldo */
+    min-height: 100vh;
 }
 
-/* Header */
-.detail-header {
-  padding: 1rem;
-  background: white;
-  border-bottom: 1px solid #eee;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.back-button {
-  background: none;
-  border: none;
-  font-size: 1rem;
-  color: #333;
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  transition: background-color 0.3s;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.back-button:hover {
-  background-color: #f27938;
-}
-
-.back-icon {
-  font-size: 1.2rem;
-}
-
-/* Cover Image */
-.cover-image {
-  width: 100%;
-  height: 250px;
-  overflow: hidden;
-}
-
-.cover-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Información del negocio */
-.negocio-info {
-  padding: 1.5rem;
-  border-bottom: 1px solid #eee;
-}
-
-.info-header {
-  margin-bottom: 1.5rem;
-}
-
-.negocio-nombre {
-  font-size: 1.8rem;
-  color: #1a1a1a;
-  margin-bottom: 0.5rem;
-}
-
-.rating-section {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.stars {
-  display: flex;
-  gap: 0.2rem;
-}
-
-.star {
-  color: #ddd;
-  font-size: 1.2rem;
-}
-
-.star.filled {
-  color: #f39c12;
-}
-
-.rating-text {
-  color: #666;
-  font-size: 0.9rem;
-}
-
-.contact-info,
-.horario-info {
-  margin-bottom: 1rem;
-}
-
-.contact-item {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  margin-bottom: 0.5rem;
-  color: #555;
-}
-
-.contact-item .icon {
-  font-size: 1.1rem;
-  width: 20px;
-  text-align: center;
-}
-
-/* About Section */
-.about-section {
-  padding: 1.5rem;
-  border-bottom: 1px solid #eee;
-}
-
-.about-section h2 {
-  color: #1a1a1a;
-  margin-bottom: 1rem;
-  font-size: 1.3rem;
-}
-
-.about-text {
-  color: #555;
-  line-height: 1.6;
-  font-size: 0.95rem;
-}
-
-/* Gallery Section */
-.gallery-section {
-  padding: 1.5rem;
-  border-bottom: 1px solid #eee;
-}
-
-.gallery-section h2 {
-  color: #1a1a1a;
-  margin-bottom: 1rem;
-  font-size: 1.3rem;
-}
-
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-}
-
-.gallery-item {
-  aspect-ratio: 1;
-  border-radius: 8px;
-  overflow: hidden;
-  background: #f5f5f5;
-}
-
-.gallery-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s;
-}
-
-.gallery-item:hover .gallery-img {
-  transform: scale(1.05);
-}
-
-/* Services Section */
-.services-section {
-  padding: 1.5rem;
-  border-bottom: 1px solid #eee;
-}
-
-.services-section h2 {
-  color: #1a1a1a;
-  margin-bottom: 1rem;
-  font-size: 1.3rem;
-}
-
-.services-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.service-card {
-  background: #f8f9fa;
-  border-radius: 10px;
-  padding: 1.2rem;
-  border-left: 4px solid #ff6b35;
-}
-
-.service-info h3 {
-  color: #1a1a1a;
-  margin-bottom: 0.5rem;
-  font-size: 1.1rem;
-}
-
-.service-desc {
-  color: #666;
-  font-size: 0.9rem;
-  margin-bottom: 0.8rem;
-  line-height: 1.4;
-}
-
-.service-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.duration {
-  color: #666;
-  font-size: 0.85rem;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-}
-
-.price {
-  color: #ff6b35;
-  font-weight: bold;
-  font-size: 1.1rem;
-}
-
-/* Action Section */
-.action-section {
-  padding: 1.5rem;
-  background: white;
-  position: sticky;
-  bottom: 0;
-  border-top: 1px solid #eee;
-}
-
-.reservar-btn {
-  width: 100%;
-  background: #1a1a1a;
-  color: white;
-  border: none;
-  padding: 1.2rem;
-  border-radius: 12px;
-  font-size: 1.1rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.reservar-btn:hover {
-  background: #ff6b35;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .negocio-detail-container {
-    margin: 0;
-  }
-
-  .gallery-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .cover-image {
-    height: 200px;
-  }
-
-  .negocio-nombre {
-    font-size: 1.5rem;
-  }
-
-  .rating-section {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .gallery-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .service-meta {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-
+/* --- PORTADA --- */
 .portada-container {
-  width: 100%;
-  margin-bottom: 1.5rem;
+    width: 100%;
+    margin-bottom: 2rem;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
 }
 
 .portada-container img {
-  width: 100%;
-  height: 300px; /* Altura fija para la portada */
-  object-fit: cover; /* Hace que la imagen cubra el espacio sin deformarse */
-  border-radius: 10px;
-  background-color: #f0f0f0; /* Color mientras carga */
+    width: 100%;
+    height: 350px; /* Altura fija elegante */
+    object-fit: cover;
+    display: block;
 }
 
-/* --- SECCIÓN INFO --- */
+/* --- INFO DEL NEGOCIO --- */
 .info-container {
-  border-bottom: 1px solid #e0e0e0;
-  padding-bottom: 1.5rem;
-  margin-bottom: 1.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #333;
+    margin-bottom: 2rem;
 }
 
 .info-container h1 {
-  font-size: 2.5rem; /* 40px */
-  font-weight: bold;
-  color: #1a1a1a;
-  margin: 0;
-  margin-bottom: 1rem;
+    font-size: 3rem;
+    margin: 0 0 1rem 0;
+    color: #fff;
+    font-weight: 700;
 }
 
 .info-item {
-  font-size: 1.1rem; /* 18px */
-  color: #555;
-  margin: 0.5rem 0;
-  display: flex;
-  align-items: center;
+    font-size: 1.1rem;
+    color: #bbb; /* Gris claro para lectura */
+    margin: 0.8rem 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-/* Botón de Reservar (Como en el wireframe) */
+/* Botón Reservar */
 .reservar-btn {
-  background-color: #1a1a1a; /* Color oscuro */
-  color: #ffffff;
-  font-size: 1rem;
-  font-weight: bold;
-  padding: 0.8rem 1.5rem; /* 12px arriba/abajo, 24px lados */
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 1rem;
-  transition: background-color 0.2s, transform 0.2s;
+    background-color: #ff6b35; /* Naranja vibrante */
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 1.5rem;
+    width: 100%;
+    max-width: 300px;
+    transition: transform 0.2s, background-color 0.2s;
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
 }
 
 .reservar-btn:hover {
-  background-color: #333333;
-  transform: scale(1.02); /* Pequeño efecto al pasar el mouse */
+    background-color: #e55a2b;
+    transform: translateY(-2px);
 }
 
 /* --- SECCIÓN ACERCA DE --- */
 .about-container {
-  border-bottom: 1px solid #e0e0e0;
-  padding-bottom: 1.5rem;
-  margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #333;
 }
 
-.about-container h2,
+.about-container h2, 
 .galeria-container h2 {
-  font-size: 1.8rem; /* 28px */
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 1rem;
+    font-size: 2rem;
+    color: #ff6b35; /* Títulos en naranja */
+    margin-bottom: 1rem;
 }
 
 .about-container p {
-  font-size: 1rem;
-  color: #444;
-  line-height: 1.6; /* Espacio entre líneas */
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #ddd;
 }
 
-/* --- SECCIÓN GALERÍA --- */
+/* --- GALERÍA --- */
 .galeria-container {
-  margin-top: 1.5rem;
+    margin-top: 2rem;
 }
 
 .galeria-grid {
-  display: grid;
-  /* Crea 3 columnas de tamaño igual */
-  grid-template-columns: repeat(3, 1fr); 
-  gap: 1rem; /* Espacio entre las fotos */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Grid responsivo automático */
+    gap: 1.5rem;
+}
+
+.foto-card {
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.foto-card:hover {
+    transform: scale(1.03); /* Efecto zoom al pasar mouse */
 }
 
 .foto-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 8px;
-  background-color: #f0f0f0;
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    display: block;
 }
 
-/* --- Adaptación para celulares --- */
-@media (max-width: 600px) {
-  .profile-container {
-    padding: 1rem;
-    margin: 1rem;
-  }
-  
-  .info-container h1 {
-    font-size: 2rem; /* Más pequeño en móvil */
-  }
+/* =========================================
+   RESPONSIVE (CELULARES)
+   ========================================= */
 
-  .galeria-grid {
-    /* En móvil, muestra 2 columnas en lugar de 3 */
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-/* ========================================
-   RESPONSIVE COMPLETO PARA DETALLE
-======================================== */
-
-/* Tablets (768px - 1024px) */
-@media (max-width: 1024px) {
-  .business-title {
-    font-size: 2.5rem;
-  }
-  
-  .services-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .gallery-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .main-body {
-    padding: 2rem 1.5rem;
-  }
-  
-  .hero-content {
-    padding: 0 1.5rem 2rem 1.5rem;
-  }
-}
-
-/* Móviles grandes (576px - 768px) */
 @media (max-width: 768px) {
-  .business-title {
-    font-size: 2rem;
-    text-align: center;
-  }
-  
-  .hero-section {
-    height: 50vh;
-    min-height: 400px;
-  }
-  
-  .business-meta {
-    flex-direction: column;
-    align-items: center;
-    gap: 0.8rem;
-  }
-  
-  .gallery-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .reviews-list {
-    grid-template-columns: 1fr;
-  }
-  
-  .modal-container {
-    margin: 0 16px;
-    width: calc(100% - 32px);
-  }
-  
-  .cards-grid-small {
-    grid-template-columns: 1fr;
-  }
-  
-  .hero-content {
-    text-align: center;
-    padding: 0 1rem 2rem 1rem;
-  }
-  
-  .top-nav {
-    left: 1rem;
-    top: 1rem;
-  }
+    .info-container h1 {
+        font-size: 2rem;
+    }
+
+    .portada-container img {
+        height: 200px; /* Portada más pequeña en móvil */
+    }
+
+    .reservar-btn {
+        width: 100%;
+        max-width: none; /* Botón ancho completo en móvil */
+    }
+
+    .galeria-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas en tablets/móviles grandes */
+        gap: 10px;
+    }
 }
 
-/* Móviles pequeños (hasta 576px) */
-@media (max-width: 576px) {
-  .business-title {
-    font-size: 1.8rem;
-  }
-  
-  .hero-content {
-    padding: 0 1rem 1.5rem 1rem;
-  }
-  
-  .top-nav {
-    left: 0.8rem;
-    top: 0.8rem;
-  }
-  
-  .main-body {
-    padding: 1.5rem 1rem;
-  }
-  
-  .service-card {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 1rem;
-  }
-  
-  .time-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .modal-footer {
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .actions-right {
-    width: 100%;
-    justify-content: space-between;
-  }
-  
-  .section-heading {
-    font-size: 1.3rem;
-    text-align: center;
-  }
-  
-  .btn-reservar-main {
-    width: 100%;
-    padding: 14px 20px;
-  }
-}
-
-/* Móviles muy pequeños (hasta 400px) */
-@media (max-width: 400px) {
-  .business-title {
-    font-size: 1.6rem;
-  }
-  
-  .rating-pill, .address-pill, .hours-pill {
-    font-size: 0.8rem;
-    padding: 4px 10px;
-  }
-  
-  .service-info h3 {
-    font-size: 0.9rem;
-  }
-  
-  .service-price {
-    font-size: 1rem;
-  }
-  
-  .modal-container {
-    margin: 0 8px;
-    width: calc(100% - 16px);
-  }
-}
+@media (max-width: 480px) {
+    .galeria-grid {
+        grid-template-columns: 1fr; /* 1 columna en celulares pequeños */
+    }
+    
+    .profile-container {
+        padding: 15px;
+    }
 }

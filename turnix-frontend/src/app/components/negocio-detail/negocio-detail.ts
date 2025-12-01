@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NegocioService } from '../../services/negocio.service';
-import { forkJoin } from 'rxjs'; 
 import { CommonModule } from '@angular/common'; 
+import { catchError, forkJoin, of } from 'rxjs'; 
 
 @Component({
   selector: 'app-negocio-detail',
@@ -15,7 +15,8 @@ export class NegocioDetail implements OnInit {
 
   negocio: any; 
   galeria: any[] = []; 
-  negocioId: number = 0; 
+  negocioId: number = 0;
+  cargando: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -24,23 +25,24 @@ export class NegocioDetail implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // 1. Obtiene el 'id' de la URL
     this.negocioId = Number(this.route.snapshot.paramMap.get('id'));
 
-    // 2. Si hay un ID, cargamos los datos
     if (this.negocioId) {
       forkJoin({
-        // CORRECCIÓN: Usamos los nombres que definimos en tu NegocioService
         negocio: this.negocioService.obtenerNegocioPorId(this.negocioId),
-        galeria: this.negocioService.obtenerGaleriaPorNegocio(this.negocioId)
+        galeria: this.negocioService.obtenerGaleriaPorNegocio(this.negocioId).pipe(
+            catchError(error => {
+                return of([]); 
+            })
+        )
       }).subscribe({
         next: (resultado) => {
           this.negocio = resultado.negocio;
           this.galeria = resultado.galeria;
-          console.log('Datos cargados:', this.negocio, this.galeria);
+          this.cargando = false;
         },
         error: (err) => {
-          console.error('Error al cargar datos del negocio', err);
+          this.cargando = false;
         }
       });
     }

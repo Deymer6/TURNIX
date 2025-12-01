@@ -1,185 +1,149 @@
-
 <div class="booking-container">
-  
 
-  <div *ngIf="currentStep === 1" class="paso-container">
+  <div *ngIf="currentStep === 1" class="paso-container fade-in">
     <div class="paso-header">
-      <h1>Seleccionar Servicio</h1>
-      <p class="paso-info">Paso 1 de 3: Elige tu servicio</p>
+      <h1>Reserva tu Cita</h1>
+      <p class="subtitulo">Paso 1 de 3: Elige el servicio</p>
     </div>
 
-    <!-- Lista de servicios -->
-    <div *ngIf="servicios.length > 0; else noServicios" class="servicios-list">
-      <div *ngFor="let s of servicios" class="servicio-card">
+    <div class="servicios-grid" *ngIf="servicios.length > 0; else loadingServicios">
+      <div *ngFor="let s of servicios" class="servicio-card" (click)="seleccionarServicio(s)">
         <div class="servicio-info">
           <h3>{{ s.nombreServicio }}</h3>
-          <p>Duración: {{ s.duracionEstimada }} min.</p>
+          <span class="duracion">⏱ {{ s.duracionEstimada }} min</span>
         </div>
-        <div class="servicio-accion">
-          <span class="precio">S/ {{ s.precio.toFixed(2) }}</span>
-          <button (click)="seleccionarServicio(s)" class="seleccionar-btn">
-            Seleccionar
-          </button>
+        <div class="servicio-precio">
+          <span>S/ {{ s.precio | number:'1.2-2' }}</span>
+          <button class="btn-select">Seleccionar</button>
         </div>
       </div>
     </div>
 
-    <!-- Mensaje si no se encuentran servicios -->
-    <ng-template #noServicios>
-      <div class="no-servicios">
-        <p>No hay servicios disponibles para este negocio.</p>
+    <ng-template #loadingServicios>
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Cargando servicios disponibles...</p>
       </div>
     </ng-template>
   </div>
 
-  <div *ngIf="currentStep === 2 && servicioSeleccionado" class="paso-container">
-    
+  <div *ngIf="currentStep === 2" class="paso-container fade-in">
     <div class="paso-header">
       <h1>Agendar Cita</h1>
-      <p class="paso-info">Paso 2 de 3: Elige profesional y hora</p>
+      <p class="subtitulo">Paso 2 de 3: Disponibilidad</p>
     </div>
 
-    <!-- Resumen del servicio seleccionado -->
-    <div class="servicio-resumen">
-      <span>{{ servicioSeleccionado.nombreServicio }}</span>
-      <span>Duración: {{ servicioSeleccionado.duracionEstimada }} min.</span>
-      <span>S/ {{ servicioSeleccionado.precio.toFixed(2) }}</span>
+    <div class="resumen-seleccion">
+      <span class="badge-servicio">{{ servicioSeleccionado?.nombreServicio }}</span>
+      <span class="precio-badge">S/ {{ servicioSeleccionado?.precio | number:'1.2-2' }}</span>
     </div>
 
-    <!-- Formulario para agendar -->
-    <div class="agendar-form">
-      
-      <!-- 1. Seleccionar Profesional -->
+    <div class="filtros-agenda">
       <div class="form-group">
-        <label for="profesional">Seleccionar Profesional</label>
-        <select 
-          id="profesional" 
-          class="form-control" 
-          [(ngModel)]="profesionalSeleccionado"
-          (change)="buscarDisponibilidad()"> <!-- Llama a la función al cambiar -->
-          <option [ngValue]="null" disabled>Cualquier profesional disponible</option>
-          <option *ngFor="let p of profesionales" [value]="p.id">
-            {{ p.nombre }} {{ p.apellido }} ({{ p.especialidad }})
+        <label>Profesional:</label>
+        <select [(ngModel)]="profesionalSeleccionado" (change)="buscarDisponibilidad()" class="form-control">
+          <option [ngValue]="null" disabled>Seleccione un profesional...</option>
+          <option *ngFor="let p of profesionales" [ngValue]="p.id">
+            {{ p.nombre }} {{ p.apellido }}
           </option>
         </select>
       </div>
 
-      <!-- 2. Seleccionar Fecha -->
       <div class="form-group">
-        <label for="fecha">Seleccionar Fecha</label>
-        <input 
-          type="date" 
-          id="fecha" 
-          class="form-control"
-          [(ngModel)]="fechaSeleccionada"
-          (change)="buscarDisponibilidad()"> <!-- Llama a la función al cambiar -->
+        <label>Fecha:</label>
+        <input type="date" [(ngModel)]="fechaSeleccionada" (change)="buscarDisponibilidad()" class="form-control">
       </div>
     </div>
 
-    <!-- 3. Horarios Disponibles -->
-    <div class="horarios-container">
-      <label>Horarios Disponibles</label>
+    <div class="horarios-section" *ngIf="profesionalSeleccionado && fechaSeleccionada">
+      <label>Horarios Disponibles:</label>
       
-      <!-- Mensaje de Carga -->
-      <div *ngIf="cargandoHorarios" class="horarios-mensaje">
-        <p>Buscando horarios...</p>
-      </div>
-
-      <!-- Mensaje de Error / Sin Horarios -->
-      <div *ngIf="!cargandoHorarios && errorHorarios" class="horarios-mensaje error">
-        <p>{{ errorHorarios }}</p>
-      </div>
-
-      <!-- Lista de Horarios -->
-      <div *ngIf="!cargandoHorarios && horariosDisponibles.length > 0" class="horarios-grid">
-        <button 
-          *ngFor="let hora of horariosDisponibles"
-          class="hora-btn"
-          [class.selected]="hora === horaSeleccionada"
-          (click)="seleccionarHora(hora)">
+      <div class="slots-grid">
+        <button *ngFor="let hora of horariosDisponibles" 
+                class="time-slot" 
+                [class.selected]="hora === horaSeleccionada"
+                (click)="seleccionarHora(hora)">
           {{ hora }}
         </button>
       </div>
+      
+      <p *ngIf="horariosDisponibles.length === 0" class="no-slots">
+        No hay horarios disponibles para esta fecha.
+      </p>
     </div>
 
-    <!-- 4. Botón de Continuar -->
-    <button 
-      class="continuar-btn" 
-      (click)="continuarReserva()"
-      [disabled]="!horaSeleccionada"> 
-      Continuar
-    </button>
+    <div class="actions">
+      <button class="btn-secondary" (click)="currentStep = 1">Atrás</button>
+      <button class="btn-primary" [disabled]="!horaSeleccionada" (click)="continuarReserva()">
+        Continuar
+      </button>
+    </div>
   </div>
-  <div *ngIf="currentStep === 3" class="paso-container">
+
+  <div *ngIf="currentStep === 3" class="paso-container fade-in">
     <div class="paso-header">
-      <h1>Confirmar Reserva</h1>
-      <p class="paso-info">Paso 3 de 3: Confirma tus detalles</p>
+      <h1>Confirmar Datos</h1>
+      <p class="subtitulo">Paso 3 de 3: Finalizar reserva</p>
     </div>
-  
-    <!-- Resumen de la Cita -->
-    <div class="resumen-box">
-      <h2>Resumen de tu Cita</h2>
-      <!-- Usamos '?' (safe navigation) por si algo es nulo -->
-      <p><strong>Servicio:</strong> {{ servicioSeleccionado?.nombreServicio }}</p>
-      <p><strong>Precio:</strong> S/ {{ servicioSeleccionado?.precio.toFixed(2) }}</p>
-      <p><strong>Profesional:</strong> {{ profesionalSeleccionadoObj?.nombre }} {{ profesionalSeleccionadoObj?.apellido }}</p>
-      <p><strong>Fecha:</strong> {{ fechaSeleccionada }}</p>
-      <p><strong>Hora:</strong> {{ horaSeleccionada }}</p>
+
+    <div class="resumen-final-card">
+      <h3>Resumen de la Cita</h3>
+      <ul>
+        <li><strong>Servicio:</strong> {{ servicioSeleccionado?.nombreServicio }}</li>
+        <li><strong>Profesional:</strong> {{ profesionalSeleccionadoObj?.nombre }} {{ profesionalSeleccionadoObj?.apellido }}</li>
+        <li><strong>Fecha:</strong> {{ fechaSeleccionada }}</li>
+        <li><strong>Hora:</strong> {{ horaSeleccionada }}</li>
+        <li class="total-row"><strong>Total a Pagar:</strong> <span>S/ {{ servicioSeleccionado?.precio | number:'1.2-2' }}</span></li>
+      </ul>
     </div>
-  
-    <!-- Formulario de Contacto -->
-    <div class="form-contacto">
-      <h2>Información de Contacto</h2>
+
+    <div class="form-cliente">
+      <h3>Tus Datos</h3>
+      <div class="form-group">
+        <label>Nombre Completo *</label>
+        <input type="text" name="nombre" [(ngModel)]="clienteNombre" class="form-control" placeholder="Tu nombre">
+      </div>
+      <div class="form-group">
+        <label>Email *</label>
+        <input type="email" name="email" [(ngModel)]="clienteEmail" class="form-control" placeholder="ejemplo@correo.com">
+      </div>
+      <div class="form-group">
+        <label>Teléfono *</label>
+        <input type="tel" name="telefono" [(ngModel)]="clienteTelefono" class="form-control" placeholder="999 999 999">
+      </div>
+      <div class="form-group">
+        <label>Notas Adicionales</label>
+        <textarea name="notas" [(ngModel)]="clienteNotas" class="form-control" rows="2" placeholder="Alguna indicación especial..."></textarea>
+      </div>
+    </div>
+
+    <div *ngIf="errorAlGuardar" class="alert-error">
+      ⚠️ {{ errorAlGuardar }}
+    </div>
+
+    <div class="actions">
+      <button class="btn-secondary" (click)="currentStep = 2" [disabled]="estaGuardando">Atrás</button>
       
-      <div class="form-group">
-        <label for="nombre">Nombre Completo *</label>
-        <input type="text" id="nombre" class="form-control" [(ngModel)]="clienteNombre">
-      </div>
-  
-      <div class="form-group">
-        <label for="email">Correo Electrónico *</label>
-        <input type="email" id="email" class="form-control" [(ngModel)]="clienteEmail">
-      </div>
-  
-      <div class="form-group">
-        <label for="telefono">Teléfono *</label>
-        <input type="tel" id="telefono" class="form-control" [(ngModel)]="clienteTelefono">
-      </div>
-  
-      <div class="form-group">
-        <label for="notas">Notas Adicionales (Opcional)</label>
-        <textarea id="notas" class="form-control" [(ngModel)]="clienteNotas" rows="3"></textarea>
-      </div>
-      
-      <!-- Mensaje de Error al Guardar -->
-      <div *ngIf="errorAlGuardar" class="horarios-mensaje error">
-        <p>{{ errorAlGuardar }}</p>
-      </div>
-  
-      <!-- Botón de Confirmar -->
-      <button class="continuar-btn" (click)="finalizarReserva()" [disabled]="estaGuardando">
-        <span *ngIf="!estaGuardando">Confirmar Cita</span>
-        <span *ngIf="estaGuardando">Confirmando...</span>
+      <button class="btn-primary" (click)="finalizarReserva()" [disabled]="estaGuardando">
+        <span *ngIf="!estaGuardando">Confirmar Reserva</span>
+        <span *ngIf="estaGuardando">Creating Cita... ⏳</span>
       </button>
     </div>
   </div>
 
-  <div *ngIf="currentStep === 4" class="paso-container">
-    <div class="exito-box">
-      <h2>✅ ¡Cita Confirmada!</h2>
-      <p>Tu reserva se ha completado con éxito.</p>
-      <p>Recibirás un correo de confirmación (ficticio) con los detalles.</p>
-      <hr>
-      <!-- Mostramos un resumen final -->
-      <p><strong>Servicio:</strong> {{ servicioSeleccionado?.nombreServicio }}</p>
-      <p><strong>Fecha:</strong> {{ fechaSeleccionada }} a las {{ horaSeleccionada }}</p>
-      <p><strong>Con:</strong> {{ profesionalSeleccionadoObj?.nombre }}</p>
-      
-      <button (click)="volverAlInicio()" class="seleccionar-btn">
-        Volver al Inicio
-      </button>
+  <div *ngIf="currentStep === 4" class="paso-container fade-in success-view">
+    <div class="success-icon-container">
+      <div class="checkmark">✅</div>
     </div>
+    <h1>¡Reserva Exitosa!</h1>
+    <p>Tu cita ha sido agendada correctamente.</p>
+    
+    <div class="ticket-confirmacion">
+      <p>Te esperamos el <strong>{{ fechaSeleccionada }}</strong> a las <strong>{{ horaSeleccionada }}</strong>.</p>
+      <small>Hemos enviado un correo con los detalles.</small>
+    </div>
+
+    <button class="btn-primary btn-home" (click)="volverAlInicio()">Volver al Inicio</button>
   </div>
 
 </div>
->>>>>>> origin/abrhyl
