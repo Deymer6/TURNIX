@@ -10,6 +10,7 @@ import { GestionCitasComponent } from './components/dashboard/gestion-citas/gest
 import { GestionPromocionesComponent } from './components/dashboard/gestion-promociones/gestion-promociones';
 import { AuthGuard } from './guards/auth.guard'; 
 import { CrearNegocioComponent } from './components/crear-negocio/crear-negocio';
+import { GestionProfesionales } from './components/dashboard/gestion-profesionales/gestion-profesionales';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -29,6 +30,7 @@ export const routes: Routes = [
       { path: 'servicios', component: GestionServiciosComponent },
       { path: 'citas', component: GestionCitasComponent },
       { path: 'promociones', component: GestionPromocionesComponent },
+      { path: 'profesionales', component: GestionProfesionales },
       { path: '', redirectTo: 'servicios', pathMatch: 'full' }
     ]
   },

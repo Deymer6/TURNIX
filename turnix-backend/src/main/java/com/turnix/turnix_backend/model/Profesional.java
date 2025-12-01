@@ -1,5 +1,5 @@
 package com.turnix.turnix_backend.model;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +17,7 @@ public class Profesional {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_Negocio", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Negocio negocio;
 
     @Column(name = "Nombre", nullable = false, length = 100)

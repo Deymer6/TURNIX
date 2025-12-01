@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -18,10 +18,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.security.config.Customizer;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+
 public class SecurityConfig {
 
     @Autowired
@@ -51,19 +52,31 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) 
-                .authorizeHttpRequests(auth -> auth
-                
-                    .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/register").permitAll()
-                    .requestMatchers("/api/auth/**").permitAll()
+        http
 
-                    .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
+            .cors(Customizer.withDefaults())
+            .csrf(csrf -> csrf.disable())
+            
+            .authorizeHttpRequests(auth -> auth
                 
-                    .anyRequest().authenticated()
-                )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .requestMatchers("/api/auth/**").permitAll()
+                
+                
+                .requestMatchers("/api/negocios/**").permitAll()
+                .requestMatchers("/api/profesionales/**").permitAll()
+                .requestMatchers("/api/servicios/**").permitAll()
+                .requestMatchers("/api/citas/**").permitAll()
+                .requestMatchers("/api/galerias/**").permitAll()
 
+                
+                .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
+                
+                
+                .anyRequest().authenticated()
+            )
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+        
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

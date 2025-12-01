@@ -18,7 +18,8 @@ public class ProfesionalService {
         return profesionalRepository.findAll();
     }
 
-    public Optional<Profesional> getProfesionalById(Long id) {
+   
+    public Optional<Profesional> getProfesionalById(Integer id) {
         return profesionalRepository.findById(id);
     }
 
@@ -26,10 +27,24 @@ public class ProfesionalService {
         return profesionalRepository.save(profesional);
     }
 
-    public void deleteProfesional(Long id) {
+    
+    public Profesional updateProfesional(Integer id, Profesional profesionalDetails) {
+        return profesionalRepository.findById(id).map(profesional -> {
+            profesional.setNombre(profesionalDetails.getNombre());
+            profesional.setApellido(profesionalDetails.getApellido());
+            profesional.setEspecialidad(profesionalDetails.getEspecialidad());
+            profesional.setActivo(profesionalDetails.getActivo());
+            
+            return profesionalRepository.save(profesional);
+        }).orElse(null);
+    }
+
+    
+    public void deleteProfesional(Integer id) {
         profesionalRepository.deleteById(id);
     }
-    public List<Profesional> getProfesionalesByNegocioId(Integer negocioId) { // O Long
-    return profesionalRepository.findByNegocio_Id(negocioId);
-}
+
+    public List<Profesional> getProfesionalesByNegocioId(Integer negocioId) {
+        return profesionalRepository.findByNegocio_Id(negocioId);
+    }
 }

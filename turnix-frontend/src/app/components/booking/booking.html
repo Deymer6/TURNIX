@@ -1,10 +1,7 @@
-<<<<<<< HEAD
-=======
+
 <div class="booking-container">
   
-  <!-- ============================================= -->
-  <!-- == PASO 1: SELECCIONAR SERVICIO == -->
-  <!-- ============================================= -->
+
   <div *ngIf="currentStep === 1" class="paso-container">
     <div class="paso-header">
       <h1>Seleccionar Servicio</h1>
@@ -35,10 +32,6 @@
     </ng-template>
   </div>
 
-
-  <!-- ============================================= -->
-  <!-- == PASO 2: AGENDAR CITA == -->
-  <!-- ============================================= -->
   <div *ngIf="currentStep === 2 && servicioSeleccionado" class="paso-container">
     
     <div class="paso-header">
@@ -117,11 +110,6 @@
       Continuar
     </button>
   </div>
-
-
-  <!-- ============================================= -->
-  <!-- == PASO 3: CONFIRMAR RESERVA == -->
-  <!-- ============================================= -->
   <div *ngIf="currentStep === 3" class="paso-container">
     <div class="paso-header">
       <h1>Confirmar Reserva</h1>
@@ -176,9 +164,6 @@
     </div>
   </div>
 
-  <!-- ============================================= -->
-  <!--    PASO 4: ÉXITO == -->
-  <!-- ============================================= -->
   <div *ngIf="currentStep === 4" class="paso-container">
     <div class="exito-box">
       <h2>✅ ¡Cita Confirmada!</h2>

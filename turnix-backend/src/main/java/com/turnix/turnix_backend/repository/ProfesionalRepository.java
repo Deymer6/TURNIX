@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ProfesionalRepository extends JpaRepository<Profesional, Long> {
+
+public interface ProfesionalRepository extends JpaRepository<Profesional, Integer> {
     List<Profesional> findByNegocio_Id(Integer negocioId);
 }

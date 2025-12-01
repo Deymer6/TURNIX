@@ -3,12 +3,14 @@
 ======================================== */
 .hero-section {
   position: relative;
-  height: 50vh;
-  min-height: 400px;
+  /* Altura dinámica pero controlada */
+  height: 60vh; 
+  min-height: 450px;
   background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+  /* Imagen de fondo de alta calidad */
   background-image: 
     linear-gradient(rgba(10, 10, 10, 0.75), rgba(10, 10, 10, 0.85)),
-    url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1600');
+    url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1600&q=80');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -16,12 +18,13 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  padding-top: 60px; /* Espacio para que el header no tape el contenido */
 }
 
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(0,0,0,0.4) 100%);
+  background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(0,0,0,0.6) 100%);
   pointer-events: none;
 }
 
@@ -29,7 +32,8 @@
   position: relative;
   z-index: 10;
   text-align: center;
-  padding: 2rem;
+  padding: 0 1.5rem; /* Padding lateral seguro */
+  width: 100%;
   max-width: 800px;
   animation: fadeInUp 1s ease-out;
 }
@@ -39,16 +43,19 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Logo */
-.logo-container { margin-bottom: 1.5rem; }
+/* ========================================
+   LOGO ESTILIZADO
+======================================== */
+.logo-container { margin-bottom: 2rem; }
 
 .brand-logo {
-  font-size: 5rem;
+  font-size: 5rem; /* Grande en escritorio */
   font-weight: 900;
   letter-spacing: 0.5rem;
   color: #ffffff;
   text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
   margin-bottom: 0.5rem;
+  line-height: 1.1;
   background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -72,15 +79,21 @@
   letter-spacing: 0.05rem;
 }
 
-/* Barra de Búsqueda */
-.search-container { max-width: 700px; margin: 0 auto; }
+/* ========================================
+   BARRA DE BÚSQUEDA
+======================================== */
+.search-container { 
+  width: 100%;
+  max-width: 600px; 
+  margin: 0 auto; 
+}
 
 .search-box {
   display: flex;
   align-items: center;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
-  border-radius: 60px;
+  border-radius: 60px; /* Forma de píldora */
   padding: 0.5rem 0.5rem 0.5rem 1.5rem;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
@@ -93,7 +106,11 @@
   transform: translateY(-2px);
 }
 
-.search-icon { font-size: 1.3rem; margin-right: 1rem; color: #1a1a1a; }
+.search-icon { 
+  font-size: 1.2rem; 
+  margin-right: 1rem; 
+  color: #666;
+}
 
 .search-input {
   flex: 1;
@@ -102,34 +119,97 @@
   font-size: 1rem;
   color: #1a1a1a;
   background: transparent;
-  padding: 0.75rem 0;
+  padding: 0.5rem 0;
+  min-width: 0; /* Evita desbordes en flexbox */
 }
+
+.search-input::placeholder { color: #9ca3af; }
 
 .search-button {
   background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
   color: white;
   border: none;
-  padding: 1rem 2.5rem;
+  padding: 0.8rem 2rem;
   border-radius: 50px;
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
+  white-space: nowrap; /* Evita que el texto baje */
   box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
 }
 
-.search-button:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6); }
+.search-button:hover { 
+  transform: scale(1.05); 
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6); 
+}
 .search-button:active { transform: scale(0.98); }
 
-/* Responsive */
+/* ========================================
+   RESPONSIVE (MÓVILES Y TABLETS)
+======================================== */
+
+/* Tabletas y pantallas medianas */
 @media (max-width: 768px) {
-  .brand-logo { font-size: 3rem; letter-spacing: 0.3rem; }
-  .hero-tagline { font-size: 1rem; }
-  .search-box { flex-direction: column; border-radius: 20px; padding: 1rem; }
-  .search-input { width: 100%; padding: 0.75rem 0; text-align: center; }
-  .search-button { width: 100%; margin-top: 1rem; border-radius: 15px; }
+  .hero-section {
+    min-height: 400px;
+  }
+
+  .brand-logo { 
+    font-size: 3.5rem; 
+    letter-spacing: 0.2rem;
+  }
+  
+  .hero-tagline { 
+    font-size: 1.1rem; 
+    margin-bottom: 2rem;
+  }
+
+  /* Cambio clave: La barra de búsqueda se apila verticalmente */
+  .search-box { 
+    flex-direction: column; 
+    padding: 1rem;
+    border-radius: 20px; /* Menos redondeado al apilarse */
+    gap: 0.5rem;
+  }
+
+  .search-icon { display: none; } /* Ocultamos icono para ganar espacio */
+
+  .search-input { 
+    width: 100%; 
+    text-align: center; 
+    padding: 0.5rem;
+    font-size: 1.1rem;
+    border-bottom: 1px solid #eee; /* Línea separadora sutil */
+    margin-bottom: 0.5rem;
+  }
+
+  .search-button { 
+    width: 100%; 
+    padding: 1rem;
+    border-radius: 12px;
+  }
 }
+
+/* Móviles pequeños */
 @media (max-width: 480px) {
-  .hero-section { height: 60vh; min-height: 500px; }
-  .brand-logo { font-size: 2.5rem; }
+  .hero-section { 
+    height: auto; /* Altura automática para evitar cortes */
+    padding: 6rem 1rem 4rem 1rem;
+  }
+
+  /* El logo se adapta al ancho de pantalla */
+  .brand-logo { 
+    font-size: 12vw; 
+    letter-spacing: 0.1rem;
+  }
+
+  .hero-tagline { 
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+  
+  .brand-underline {
+    width: 50px;
+  }
 }
